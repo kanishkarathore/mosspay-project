@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Bill</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- NEW: QR Code Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="dashboard-body">
+
+    <!-- Sidebar (unchanged) -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('vendor_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
+            <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
+            <li><a href="#"><i class="fas fa-tags"></i> Manage Offers</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
+            <li><a href="#"><i class="fas fa-history"></i> Transaction History</a></li>
+            <li><a href="#"><i class="fas fa-gem"></i> My Subscription</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="#"><i class="fas fa-question-circle"></i> Help & Support</a>
+            <a href="{{ url_for('vendor_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main content area -->
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-right">
+                <a href="#" class="btn-topbar">View Insights</a>
+                <a href="#" class="btn-topbar btn-green-solid">Create New Offer</a>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <h1 class="content-title">Generate Bill</h1>
+            
+            <div class="bill-generator-layout">
+                
+                <!-- Left Side: Item List -->
+                <div class="card item-list-panel">
+                    <h3>Your Items (In Stock)</h3>
+                    <div class="search-bar">
+                        <input type="text" id="item-search-input" placeholder="Search your items...">
+                    </div>
+                    <ul id="item-list">
+                        <!-- Items from database are loaded here -->
+                        {% for item in items %}
+                        <li class="item-list-entry" data-name="{{ item.name.lower() }}">
+                            <div class="item-info">
+                                <strong>{{ item.name }}</strong>
+                                <small>₹{{ "%.2f"|format(item.price) }} | {{ item.stock }} in stock</small>
+                            </div>
+                            <div class="item-controls">
+                                <button class="btn-quantity" data-action="decrease" data-id="{{ item.id }}">-</button>
+                                <span id="quantity-{{ item.id }}">0</span>
+                                <button class="btn-quantity" data-action="increase" 
+                                        data-id="{{ item.id }}" 
+                                        data-name="{{ item.name }}"
+                                        data-price="{{ item.price }}"
+                                        data-carbon="{{ item.carbon_saved_kg }}"
+                                        data-stock="{{ item.stock }}">+</button>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Right Side: The Bill -->
+                <div class="card bill-panel">
+                    <h3>Current Bill</h3>
+                    <div id="bill-items-list">
+                        <p class="empty-bill">No items added yet.</p>
+                    </div>
+                    <hr>
+                    <div class="bill-totals">
+                        <div class="total-row">
+                            <span>Total Carbon Saved:</span>
+                            <strong id="total-carbon">0.0 kg</strong>
+                        </div>
+                        <div class="total-row total-amount">
+                            <span>Total Amount:</span>
+                            <strong id="total-amount">₹0.00</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="bill-actions">
+                        <div class="input-group">
+                            <label for="customer-phone">Customer Phone Number</label>
+                            <input type="tel" id="customer-phone" placeholder="10-digit mobile number">
+                        </div>
+                        <button id="btn-send-to-phone" class="btn-sign-in">Send to Phone</button>
+                        <button id="btn-generate-qr" class="btn-topbar">Generate QR</button>
+                    </div>
+                    <!-- This is where the QR code will appear -->
+                    <div id="qr-code-container"></div>
+                    <div id="bill-message-display"></div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+    
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+    <!-- NEW: JavaScript for this page -->
+    <script src="{{ url_for('static', filename='generate_bill.js') }}"></script>
+</body>
+</html>

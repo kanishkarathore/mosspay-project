@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MossPay - Register Your Business</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        
+        <h1 class="vendor-title">MossPay for Business</h1>
+
+        <div class="login-box" style="max-width: 600px;">
+            <h3>Register Your Green Business</h3>
+            <p class="login-subtext">Join our network of sustainable MSMEs and reach conscious consumers.</p>
+
+            <form action="" method="POST">
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="business-name">Business Name</label>
+                        <input type="text" id="business-name" name="business-name" placeholder="e.g., Eco-Friendly Emporium" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="contact-name">Contact Person's Name</label>
+                        <input type="text" id="contact-name" name="contact-name" placeholder="e.g., Jane Doe" required>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Business Email</label>
+                    <input type="email" id="email" name="email" placeholder="you@business.com" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="mobile">Mobile Number</label>
+                        <input type="tel" id="mobile" name="mobile" placeholder="e.g., 9876543210" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="udyam-id">Udyam ID (Optional)</label>
+                        <input type="text" id="udyam-id" name="udyam-id" placeholder="e.g., UDYAM-XX-00-0000000">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="address">Business Address</label>
+                    <textarea id="address" name="address" rows="3" placeholder="123 Green Way, Eco City, 110001" required></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label>Upload Green Certification (Optional)</label>
+                    <div class="file-upload-box">
+                        <p>Click to upload or drag and drop</p>
+                        <small>PDF or Image file (max 5MB)</small>
+                    </div>
+                    <input type="file" id="certification-file" hidden>
+                </div>
+                
+                <button type="submit" class="btn btn-sign-in">Submit for Verification</button>
+            </form>
+        </div>
+
+        <div class="register-link">
+            <a href="{{ url_for('vendor_login') }}">Already have an account? Login.</a>
+        </div>
+
+    </div>
+    </body>
+</html>

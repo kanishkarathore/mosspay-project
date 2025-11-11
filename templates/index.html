@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MossPay</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        
+        <img src="{{ url_for('static', filename='images/moss_wallet_icon.png') }}" alt="MossPay Logo" class="main-icon">
+
+        <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="main-logo-text">
+
+        <p class="tagline">A micro carbon wallet for green purchases.</p>
+
+        <div class="choice-box">
+            <a href="{{ url_for('consumer_login') }}" class="btn btn-green">Continue as customer</a>
+            <a href="{{ url_for('vendor_login') }}" class="btn btn-dark-green">Continue as vendor</a>
+        </div>
+    </div>
+</body>
+</html>

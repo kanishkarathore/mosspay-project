@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Purchase</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('consumer_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li class="active"><a href="{{ url_for('log_purchase') }}"><i class="fas fa-receipt"></i> Log Purchase</a></li>
+            <li><a href="#"><i class="fas fa-store"></i> Discover Vendors</a></li>
+            <li><a href="#"><i class="fas fa-gift"></i> Redeem</a></li>
+            <li><a href="#"><i class="fas fa-lightbulb"></i> Eco-Tips</a></li>
+            <li><a href="#"><i class="fas fa-comments"></i> Refer & Earn</a></li>
+            <li><a href="#"><i class="fas fa-robot"></i> Eco-Advisor</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+    
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <h1 class="content-title">Log Your Purchases</h1>
+            <p class="tagline" style="text-align: left; margin: -20px 0 20px 0;">Log your pending bills to earn MossCoins and grow your sprout.</p>
+
+            <div class="log-purchase-list">
+                {% if bills %}
+                    {% for bill, vendor_name in bills %}
+                    <div class="bill-card">
+                        <div class="bill-card-header">
+                            <h4>{{ vendor_name }}</h4>
+                            <span class="bill-date">{{ bill.created_at.strftime('%d %b %Y') }}</span>
+                        </div>
+                        <div class="bill-card-body">
+                            <div class="bill-detail">
+                                <span>Amount</span>
+                                <strong>₹{{ "%.2f"|format(bill.total_amount) }}</strong>
+                            </div>
+                            <div class="bill-detail">
+                                <span>CO₂ Saved</span>
+                                <strong>{{ bill.total_carbon_saved }} kg</strong>
+                            </div>
+                            <div class="bill-detail reward">
+                                <span>Reward</span>
+                                <strong>+{{ bill.mosscoins_to_award }} MossCoins</strong>
+                            </div>
+                        </div>
+                        <div class="bill-card-footer">
+                            {% if bill.status == 'pending' %}
+                                <button class="btn-sign-in btn-log-purchase" data-bill-id="{{ bill.id }}">
+                                    Log this Purchase
+                                </button>
+                            {% else %}
+                                <span class="badge-logged">
+                                    <i class="fas fa-check-circle"></i> Logged
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>You have no pending bills. Go make a green purchase!</p>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='log_purchase.js') }}"></script>
+</body>
+</html>

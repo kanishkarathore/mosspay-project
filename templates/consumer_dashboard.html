@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MossPay - Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="active"><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('log_purchase') }}"><i class="fas fa-receipt"></i> Log Purchase</a></li>
+            <li><a href="#"><i class="fas fa-store"></i> Discover Vendors</a></li>
+            <li><a href="#"><i class="fas fa-gift"></i> Redeem</a></li>
+            <li><a href="#"><i class="fas fa-lightbulb"></i> Eco-Tips</a></li>
+            <li><a href="#"><i class="fas fa-comments"></i> Refer & Earn</a></li>
+            <li><a href="#"><i class="fas fa-robot"></i> Eco-Advisor</a></li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+    
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <h1 class="content-title">Welcome back, {{ user.fullname.split(' ')[0] }}!</h1>
+
+            <div class="card card-balance">
+                <p>MossCoin Balance</p>
+                <h2 class="balance-amount">{{ user.mosscoin_balance }}</h2>
+                <p class="balance-subtext">Coins earned from green purchases</p>
+            </div>
+            
+            <div class="banner-carousel">
+                <div class="banner-track">
+                    <div class="banner-item">New vendor GreenGoods just joined!</div>
+                    <div class="banner-item">Save 10% on Jute Bags this week!</div>
+                    <div class="banner-item">Tip: Remember to log your purchases.</div>
+                    <div class="banner-item">You are ranked #240 in your city!</div>
+                </div>
+            </div>
+
+            <div class="card card-sprout">
+                <div class="sprout-header">
+                    <h4>My Green Sprout</h4>
+                    <i class="fas fa-seedling sprout-icon"></i>
+                </div>
+                <div class="sprout-stats">
+                    <div>
+                        <strong>{{ user.total_co2_saved }} kg</strong>
+                        <p>Total CO₂ Saved</p>
+                    </div>
+                    <div>
+                        <strong>1</strong>
+                        <p>Trees Planted</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card card-stat">
+                    <i class="fas fa-leaf stat-icon"></i>
+                    <strong>{{ user.total_co2_saved }} kg</strong>
+                    <p>CO₂ Saved</p>
+                </div>
+                <div class="card card-stat">
+                    <i class="fas fa-shopping-bag stat-icon"></i>
+                    <strong>{{ user.green_purchases }}</strong>
+                    <p>Green Purchases</p>
+                </div>
+                <div class="card card-stat">
+                    <i class="fas fa-fire stat-icon"></i>
+                    <strong>{{ user.eco_streak }} days</strong>
+                    <p>Eco-Streak</p>
+                </div>
+                <div class="card card-stat">
+                    <i class="fas fa-trophy stat-icon"></i>
+                    <strong>#{{ user.rank }}</strong>
+                    <p>Rank</p>
+                </div>
+            </div>
+
+            <h3 class="quick-actions-title">Recharge & Bill Payments</h3>
+            <div class="recharge-grid">
+                
+                <a href="#" class="recharge-item">
+                    <div class="recharge-icon-bg">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <p>Mobile Recharge</p>
+                </a>
+                
+                <a href="#" class="recharge-item">
+                    <div class="recharge-icon-bg">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <p>DTH Recharge</p>
+                </a>
+
+                <a href="#" class="recharge-item">
+                    <div class="recharge-icon-bg">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <p>Electricity Bill</p>
+                </a>
+                
+                <a href="#" class="recharge-item">
+                    <div class="recharge-icon-bg">
+                        <i class="fas fa-fire-flame-curved"></i>
+                    </div>
+                    <p>Gas Cylinder</p>
+                </a>
+                
+                <a href="#" class="recharge-item">
+                    <div class="recharge-icon-bg">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <p>Broadband & Wi-Fi</p>
+                </a>
+                
+                <a href="#" class="recharge-item">
+                    <div class="recharge-icon-bg">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <p>Water Bill</p>
+                </a>
+                
+                <a href="#" class="recharge-item">
+                    <div class="recharge-icon-bg">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </div>
+                    <p>See All</p>
+                </a>
+            </div>
+
+            <h3 class="quick-actions-title">Quick Actions</h3>
+            <div class="quick-actions-grid">
+                <div class="quick-actions-small">
+                    <a href="#" class="card card-action-small">
+                        <i class="fas fa-receipt"></i> <p>Log Purchase</p>
+                    </a>
+                    <a href="#" class="card card-action-small">
+                        <i class="fas fa-store"></i> <p>Discover Vendors</p>
+                    </a>
+                    <a href="#" class="card card-action-small">
+                        <i class="fas fa-gift"></i> <p>Redeem Coins</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <a href="#" class="fab-scan-pay" id="fab-scan-pay">
+        <i class="fas fa-qrcode"></i>
+        <span>Scan & Pay</span>
+    </a>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

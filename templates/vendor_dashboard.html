@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
+        </div>
+        
+        <ul class="sidebar-menu">
+            <li class="active"><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
+            <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
+            <li><a href="#"><i class="fas fa-tags"></i> Manage Offers</a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
+            <li><a href="#"><i class="fas fa-history"></i> Transaction History</a></li>
+            <li><a href="#"><i class="fas fa-gem"></i> My Subscription</a></li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <a href="#"><i class="fas fa-question-circle"></i> Help & Support</a>
+            <a href="{{ url_for('vendor_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+                <span class="vendor-business-name">{{ vendor.business_name }}</span>
+            </div>
+            <div class="topbar-right">
+                <a href="#" class="btn-topbar">View Insights</a>
+                <a href="#" class="btn-topbar btn-green-solid">Create New Offer</a>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <h1 class="content-title">Dashboard</h1>
+
+            <div class="stats-grid-vendor">
+                <div class="card card-stat-vendor">
+                    <p>Total Redemptions (Month)</p>
+                    <strong>1,250</strong>
+                    <small>+1.5% last month</small>
+                </div>
+                <div class="card card-stat-vendor">
+                    <p>New Customers via MossPay</p>
+                    <strong>82</strong>
+                    <small>+4 new on week</small>
+                </div>
+                <div class="card card-stat-vendor">
+                    <p>Total CO₂ Saved by Your Customers</p>
+                    <strong>450 kg</strong>
+                    <small>Est. impact</small>
+                </div>
+            </div>
+
+
+            <h3 class="quick-actions-title">Recharge & Bill Payments</h3>
+            <div class="recharge-grid">
+                <a href="#" class="recharge-item"><div class="recharge-icon-bg"><i class="fas fa-mobile-alt"></i></div><p>Mobile Recharge</p></a>
+                <a href="#" class="recharge-item"><div class="recharge-icon-bg"><i class="fas fa-tv"></i></div><p>DTH Recharge</p></a>
+                <a href="#" class="recharge-item"><div class="recharge-icon-bg"><i class="fas fa-bolt"></i></div><p>Electricity Bill</p></a>
+                <a href="#" class="recharge-item"><div class="recharge-icon-bg"><i class="fas fa-fire-flame-curved"></i></div><p>Gas Cylinder</p></a>
+                <a href="#" class="recharge-item"><div class="recharge-icon-bg"><i class="fas fa-wifi"></i></div><p>Broadband & Wi-Fi</p></a>
+                <a href="#" class="recharge-item"><div class="recharge-icon-bg"><i class="fas fa-tint"></i></div><p>Water Bill</p></a>
+                <a href="#" class="recharge-item"><div class="recharge-icon-bg"><i class="fas fa-ellipsis-h"></i></div><p>See All</p></a>
+            </div>
+
+<h3 class="quick-actions-title">Quick Actions</h3>
+            <div class="quick-actions-small">
+                <a href="{{ url_for('generate_bill') }}" class="card card-action-small">
+                    <i class="fas fa-receipt"></i> <p>Generate Bill</p>
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
