@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Vendors</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+         </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <a href="{{ url_for('consumer_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <h1 class="content-title">Discover Green Vendors</h1>
+            <p class="tagline" style="text-align: left; margin: -20px 0 20px 0;">Find local, sustainable businesses near you.</p>
+
+            <form method="GET" action="{{ url_for('discover_vendors') }}" class="discover-search-form">
+                <div class="search-bar">
+                    <input type="text" name="q" placeholder="Search for a product (e.g., Jute Bag, Coffee)..." value="{{ search_term or '' }}">
+                    <button type="submit" class="btn-search"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+
+            <div class="vendor-grid">
+                
+                {% if vendors %}
+                    {% for vendor in vendors %}
+                    <a href="{{ url_for('vendor_profile', vendor_id=vendor.id) }}" class="vendor-card-link">
+                        <div class="vendor-card">
+                            <div class="vendor-card-logo">
+                                <img src="{{ vendor.logo_url or 'https://via.placeholder.com/150' }}" alt="{{ vendor.business_name }} logo">
+                            </div>
+                            <div class="vendor-card-body">
+                                <h4>{{ vendor.business_name }}</h4>
+                                <span class="vendor-category">{{ vendor.shop_category or 'Green Business' }}</span>
+                                <p class="vendor-description">{{ vendor.description or 'A local green business.' }}</p>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <p>No vendors found{% if search_term %} matching "{{ search_term }}"{% endif %}.</p>
+                {% endif %}
+                
+            </div>
+        </div>
+    </main>
+
+    </body>
+</html>

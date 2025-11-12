@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('vendor_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li class="active"><a href="{{ url_for('manage_profile') }}"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
+            <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
+            <li><a href="{{ url_for('manage_offers') }}"><i class.fas fa-tags"></i> Manage Offers</a></li>
+           <li><a href="{{ url_for('customer_insights') }}"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
+            <li><a href="{{ url_for('transaction_history') }}"><i class="fas fa-history"></i> Transaction History</a></li>
+            <li><a href="{{ url_for('my_subscription') }}"><i class="fas fa-gem"></i> My Subscription</a></li>
+        </ul>
+        <div class="sidebar-footer">
+           <a href="{{ url_for('vendor_settings') }}"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('vendor_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class="topbar-right">
+                <a href="#" class="btn-topbar">View Insights</a>
+                <a href="#" class="btn-topbar btn-green-solid">Create New Offer</a>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <h1 class="content-title">Manage Your Public Profile</h1>
+            <p class="tagline" style="text-align: left; margin: -20px 0 20px 0;">This information will be visible to customers in the "Discover Vendors" section.</p>
+            
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="flash-message" style="max-width: none; margin-bottom: 20px;">
+                  {{ messages[0] }}
+                </div>
+              {% endif %}
+            {% endwith %}
+            
+            <div class="card" style="background-color: #2a5252; padding: 25px;">
+                <form action="{{ url_for('manage_profile') }}" method="POST">
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="business_name">Business Name</label>
+                            <input type="text" id="business_name" name="business_name" value="{{ vendor.business_name }}">
+                        </div>
+                        <div class="input-group">
+                            <label for="shop_category">Shop Category</label>
+                            <input type="text" id="shop_category" name="shop_category" value="{{ vendor.shop_category or '' }}" placeholder="e.g., Organic Food, Handicrafts">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="description">Shop Description (Bio)</label>
+                        <textarea id="description" name="description" rows="4" placeholder="Tell customers what makes your business green!">{{ vendor.description or '' }}</textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="logo_url">Logo Image URL</label>
+                            <input type="text" id="logo_url" name="logo_url" value="{{ vendor.logo_url or '' }}" placeholder="https://.../your-logo.png">
+                        </div>
+                        <div class="input-group">
+                            <label for="website_url">Website (Optional)</label>
+                            <input type="text" id="website_url" name="website_url" value="{{ vendor.website_url or '' }}" placeholder="https://yourshop.com">
+                        </div>
+                    </div>
+                    
+                    <hr style="border-color: #3a6363; margin: 20px 0;">
+                    
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label for="contact_name">Contact Person</label>
+                            <input type="text" id="contact_name" name="contact_name" value="{{ vendor.contact_name }}">
+                        </div>
+                        <div class="input-group">
+                            <label for="mobile">Contact Mobile</label>
+                            <input type="tel" id="mobile" name="mobile" value="{{ vendor.mobile }}">
+                        </div>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="address">Shop Address</label>
+                        <textarea id="address" name="address" rows="3">{{ vendor.address }}</textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-sign-in" style="margin-top: 10px;">Save Changes</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+    
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>My Green Sprout</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+         </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <a href="{{ url_for('consumer_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper sprout-page-wrapper">
+            
+            <h1 class="content-title">My Green Sprout</h1>
+            <p class="tagline" style="text-align: center; margin: -20px 0 30px 0;">Your virtual tree grows as you log real-world carbon savings.</p>
+
+            <div class="sprout-pot-large">
+                <img src="{{ url_for('static', filename='images/full_tree.png') }}" 
+                 alt="Your Green Sprout" 
+                 class="sprout-image-large"
+                 style="--growth-percent: {{ growth_percent }}%;">
+            </div>
+            
+            <div class="sprout-page-stats">
+                <div class="card card-stat">
+                    <i class="fas fa-leaf stat-icon"></i>
+                    <strong>{{ user.total_co2_saved }} kg</strong>
+                    <p>Total CO₂ Saved</p>
+                </div>
+                <div class="card card-stat">
+                    <i class="fas fa-tree stat-icon"></i>
+                    <strong>{{ trees_planted }}</strong>
+                    <p>Real Trees Planted</p>
+                </div>
+            </div>
+            
+            <div class="card" style="background-color: #3a7575;">
+                <h4>How it works:</h4>
+                <p>For every 100 kg of CO₂ you save, we'll plant a real tree in your name!</p>
+                <p style="margin:0;">Your current tree is <strong>{{ growth_percent|round(1) }}%</strong> complete.</p>
+            </div>
+
+        </div>
+    </main>
+
+    </body>
+</html>

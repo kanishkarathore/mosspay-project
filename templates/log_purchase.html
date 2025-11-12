@@ -10,30 +10,15 @@
 <body class="dashboard-body">
 
     <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="{{ url_for('consumer_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li class="active"><a href="{{ url_for('log_purchase') }}"><i class="fas fa-receipt"></i> Log Purchase</a></li>
-            <li><a href="#"><i class="fas fa-store"></i> Discover Vendors</a></li>
-            <li><a href="#"><i class="fas fa-gift"></i> Redeem</a></li>
-            <li><a href="#"><i class="fas fa-lightbulb"></i> Eco-Tips</a></li>
-            <li><a href="#"><i class="fas fa-comments"></i> Refer & Earn</a></li>
-            <li><a href="#"><i class="fas fa-robot"></i> Eco-Advisor</a></li>
-        </ul>
-        <div class="sidebar-footer">
-            <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    </nav>
-    
+         </nav>
     <div class="overlay" id="overlay"></div>
 
     <main class="main-content">
         <header class="topbar">
             <div class="topbar-left">
-                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+                <a href="{{ url_for('consumer_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             </div>
             <div class="topbar-right">
                 <button class="icon-btn"><i class="fas fa-bell"></i></button>
@@ -87,7 +72,6 @@
         </div>
     </main>
 
-    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='log_purchase.js') }}"></script>
 </body>
 </html>

@@ -172,15 +172,6 @@ body {
     text-decoration: underline;
 }
 
-/* --- STYLES FOR VENDOR LOGIN --- */
-
-.vendor-title {
-    font-size: 2.2em;
-    font-weight: bold;
-    color: white;
-    margin-bottom: 10px;
-}
-
 /* --- STYLES FOR VENDOR REGISTER --- */
 
 .form-row {
@@ -244,7 +235,7 @@ body {
 }
 
 /* ---
-   NEW DASHBOARD STYLES (V4 - FINAL)
+   DASHBOARD SHARED STYLES (Customer & Vendor)
    --- */
 
 /* Reset base body styles for dashboard */
@@ -268,14 +259,11 @@ body {
     flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
-    
     position: fixed;
     top: 0;
     left: -280px; /* Start off-screen to the LEFT */
     z-index: 2000;
     transition: transform 0.3s ease-in-out;
-    
-    /* THIS IS THE FIX: */
     text-align: left;
 }
 
@@ -304,7 +292,6 @@ body {
 
 .sidebar-header {
     margin-bottom: 30px;
-    /* Ensure header is also left-aligned */
     text-align: left; 
 }
 
@@ -381,6 +368,12 @@ body {
     border-bottom: 1px solid #3a6363;
 }
 
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between hamburger and business name */
+}
+
 .icon-btn {
     background: none;
     border: none;
@@ -389,7 +382,6 @@ body {
     cursor: pointer;
 }
 
-/* Add margin to the left of icons in the right group */
 .topbar-right .icon-btn {
     margin-left: 20px;
 }
@@ -407,13 +399,16 @@ body {
     margin-bottom: 20px;
 }
 
-/* --- Dashboard Cards --- */
 .card {
     background-color: #2a5252;
     border-radius: 12px;
     padding: 25px;
     margin-bottom: 20px;
 }
+
+/* ---
+   CUSTOMER DASHBOARD STYLES
+   --- */
 
 .card-balance {
     background-color: #3a7575;
@@ -438,22 +433,6 @@ body {
     color: #b9f6ca !important;
 }
 
-.card-sprout {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.sprout-header h4 {
-    margin: 0 0 10px 0;
-    font-size: 1.2em;
-}
-
-.sprout-icon {
-    font-size: 3em;
-    color: #b9f6ca;
-}
-
 .sprout-stats {
     display: flex;
     gap: 30px;
@@ -468,7 +447,6 @@ body {
     font-size: 0.9em;
 }
 
-/* --- 4-Card Stats Grid --- */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -497,7 +475,6 @@ body {
     font-size: 0.9em;
 }
 
-/* --- Scrolling Banner (Slide Effect) --- */
 .banner-carousel {
     background-color: #1b3a3a;
     border-radius: 12px;
@@ -519,24 +496,20 @@ body {
     padding: 15px;
 }
 
-/* --- Floating Action Button (FAB) --- */
 .fab-scan-pay {
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    
     width: 70px;
     height: 70px;
     background-color: #b9f6ca;
     color: #1b5e20;
     border-radius: 50%;
-    
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
     text-decoration: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     z-index: 1000;
@@ -557,8 +530,6 @@ body {
     margin-top: 2px;
 }
 
-
-/* --- Quick Actions Fix --- */
 .quick-actions-title {
     font-size: 1.2em;
     margin-top: 30px;
@@ -602,15 +573,9 @@ body {
     font-weight: bold;
 }
 
-
-
-/* ---
-   STYLES FOR RECHARGE & BILLS
-   --- */
-
+/* --- STYLES FOR RECHARGE & BILLS --- */
 .recharge-grid {
     display: grid;
-    /* This creates a responsive grid of items */
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     gap: 20px;
     margin-bottom: 30px; /* Space before Quick Actions */
@@ -649,17 +614,14 @@ body {
     color: #b0bec5;
 }
 
-
-
 /* ---
    STYLES FOR VENDOR DASHBOARD
    --- */
 
-
-/* Top bar buttons */
-.topbar-left-vendor {
+.vendor-business-name {
     font-size: 1.2em;
     font-weight: bold;
+    color: white;
 }
 
 .btn-topbar {
@@ -688,7 +650,6 @@ a.btn-topbar:hover {
     background-color: #3a6363;
 }
 
-/* Vendor Stats Grid (3 columns) */
 .stats-grid-vendor {
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
@@ -719,7 +680,6 @@ a.btn-topbar:hover {
     color: #b9f6ca; /* Light green for stats */
 }
 
-/* Placeholder for the graph */
 .card-graph {
     background-color: #2a5252;
     border-radius: 12px;
@@ -735,59 +695,28 @@ a.btn-topbar:hover {
     font-size: 0.9em;
     color: #b0bec5;
 }
-/* This is where you would put a chart canvas */
 .card-graph img {
     width: 100%;
     height: auto;
     opacity: 0.5; /* Just for the placeholder */
 }
 
-/* --- STYLES FOR VENDOR DASHBOARD (SHARED) --- */
-
-.topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Space between hamburger and business name */
-}
-
-.vendor-business-name {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: white;
-}
-
-/* Top bar buttons */
-.btn-topbar {
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 0.9em;
-    font-weight: bold;
-    margin-left: 10px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-green-solid {
-    background-color: #b9f6ca;
-    color: #1b5e20;
-}
-.btn-green-solid:hover {
-    background-color: #ffffff;
-}
-
-a.btn-topbar {
-    color: #eceff1;
-    border: 1px solid #3a6363;
-}
-a.btn-topbar:hover {
-    background-color: #3a6363;
-}
-
-
-
 /* ---
    STYLES FOR MANAGE ITEMS PAGE
    --- */
+
+/* Style for the <select> dropdown */
+.styled-select {
+    width: 100%;
+    padding: 12px;
+    background-color: #1b3a3a;
+    border: 1px solid #3a6363;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
 
 .card-add-item, .card-current-items {
     background-color: #2a5252;
@@ -800,61 +729,6 @@ a.btn-topbar:hover {
     margin-top: 0;
 }
 
-.search-bar {
-    display: flex;
-    gap: 10px;
-}
-.search-bar input {
-    flex-grow: 1;
-}
-
-.btn-search {
-    padding: 0 20px;
-    font-size: 1em;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #b9f6ca;
-    color: #1b5e20;
-}
-
-/* Climatiq search results */
-#climatiq-results ul {
-    list-style: none;
-    padding: 0;
-    margin: 15px 0 0 0;
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid #3a6363;
-    border-radius: 5px;
-}
-
-.result-item {
-    padding: 12px;
-    border-bottom: 1px solid #3a6363;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-.result-item:last-child {
-    border-bottom: none;
-}
-.result-item:hover {
-    background-color: #3a7575;
-}
-.result-item.selected {
-    background-color: #b9f6ca;
-    color: #1b5e20;
-}
-.result-item small {
-    opacity: 0.8;
-}
-.error-msg {
-    color: #ffcdd2;
-    font-weight: bold;
-}
-
-/* Current items table */
 #items-table {
     width: 100%;
     border-collapse: collapse;
@@ -882,6 +756,13 @@ a.btn-topbar:hover {
     text-decoration: underline;
 }
 
+/* ---
+   STYLES FOR MANAGE ITEMS (DATABASE LIST)
+   --- */
+.item-database-list .item-list-entry {
+    padding: 10px 5px;
+}
+
 
 /* ---
    STYLES FOR GENERATE BILL PAGE
@@ -894,7 +775,6 @@ a.btn-topbar:hover {
     align-items: flex-start;
 }
 
-/* Left Panel: Item List */
 .item-list-panel {
     background-color: #2a5252;
     border-radius: 12px;
@@ -969,7 +849,6 @@ a.btn-topbar:hover {
     font-weight: bold;
 }
 
-/* Right Panel: Bill */
 .bill-panel {
     background-color: #2a5252;
     border-radius: 12px;
@@ -1054,7 +933,6 @@ a.btn-topbar:hover {
     padding: 10px;
     border-radius: 8px;
 }
-/* Hide QR container until it's generated */
 #qr-code-container:empty {
     display: none;
 }
@@ -1067,8 +945,6 @@ a.btn-topbar:hover {
 .message-success { color: #b9f6ca; }
 .message-error { color: #ffcdd2; }
 .message-sending { color: #b0bec5; }
-
-
 
 /* ---
    STYLES FOR LOG PURCHASE PAGE
@@ -1149,4 +1025,741 @@ a.btn-topbar:hover {
 .badge-logged i {
     color: #b9f6ca;
     margin-right: 8px;
+}
+
+/* ---
+   STYLES FOR DISCOVER VENDORS
+   --- */
+
+.discover-search-form {
+    margin-bottom: 25px;
+}
+.discover-search-form .search-bar {
+    display: flex;
+    gap: 10px;
+    background-color: #2a5252;
+    border-radius: 8px;
+    padding: 8px;
+}
+.discover-search-form .search-bar input {
+    flex-grow: 1;
+    padding: 12px;
+    background-color: #1b3a3a;
+    border: 1px solid #3a6363;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+}
+.discover-search-form .btn-search {
+    padding: 0 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #b9f6ca;
+    color: #1b5e20;
+}
+
+.vendor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.vendor-card {
+    background-color: #2a5252;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vendor-card-logo {
+    width: 100%;
+    height: 150px;
+    background-color: #1b3a3a;
+}
+.vendor-card-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vendor-card-body {
+    padding: 20px;
+    flex-grow: 1;
+}
+.vendor-card-body h4 {
+    margin: 0;
+    font-size: 1.3em;
+    color: white;
+}
+.vendor-category {
+    font-size: 0.9em;
+    color: #b9f6ca;
+    font-weight: bold;
+    margin: 5px 0 10px 0;
+    display: block;
+}
+.vendor-description {
+    font-size: 0.9em;
+    color: #b0bec5;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* This is the fix for the clickable vendor card */
+.vendor-card-link,
+.vendor-card-link:visited {
+    text-decoration: none;
+    color: white; /* Make text color normal */
+    display: block;
+}
+.vendor-card-link:hover .vendor-card {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ---
+   STYLES FOR VENDOR PROFILE PAGE
+   --- */
+
+.vendor-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    background-color: #2a5252;
+    border-radius: 12px;
+    padding: 30px;
+}
+
+.vendor-profile-logo {
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #1b3a3a;
+}
+.vendor-profile-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.vendor-profile-info .vendor-category {
+    font-size: 1.1em;
+    color: #b9f6ca;
+    font-weight: bold;
+    margin: 5px 0 10px 0;
+    display: block;
+}
+.vendor-profile-info .vendor-description {
+    font-size: 1em;
+    color: #eceff1;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+.vendor-profile-info .btn-topbar {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    color: #eceff1;
+    border: 1px solid #3a6363;
+}
+.vendor-profile-info .btn-topbar:hover {
+    background-color: #3a6363;
+}
+.vendor-profile-info .btn-topbar i {
+    margin-right: 8px;
+}
+
+/* ---
+   STYLES FOR MANAGE ITEMS (MOCK)
+   --- */
+
+/* Style for the <select> dropdown */
+.styled-select {
+    width: 100%;
+    padding: 12px;
+    background-color: #1b3a3a;
+    border: 1px solid #3a6363;
+    border-radius: 5px;
+    color: white;
+    font-size: 1em;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.card-add-item, .card-current-items {
+    background-color: #2a5252;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.card-add-item h3, .card-current-items h3 {
+    margin-top: 0;
+}
+
+#items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#items-table th, #items-table td {
+    padding: 12px;
+    border-bottom: 1px solid #3a6363;
+    text-align: left;
+}
+
+#items-table th {
+    color: #b0bec5;
+    font-size: 0.9em;
+}
+
+.btn-delete {
+    color: #ffcdd2;
+    font-size: 0.9em;
+    text-decoration: none;
+    font-weight: bold;
+}
+.btn-delete:hover {
+    text-decoration: underline;
+}
+
+/* ---
+   STYLES FOR MANAGE ITEMS (DATABASE LIST)
+   --- */
+.item-database-list .item-list-entry {
+    padding: 10px 5px;
+}
+
+
+
+/* ---
+   STYLES FOR LEADERBOARD PAGE
+   --- */
+
+.leaderboard-card {
+    background-color: #2a5252;
+    border-radius: 12px;
+    padding: 10px 25px;
+}
+
+.leaderboard-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.leaderboard-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    border-bottom: 1px solid #3a6363;
+}
+.leaderboard-item:last-child {
+    border-bottom: none;
+}
+
+.leaderboard-rank {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #b0bec5;
+    width: 50px;
+}
+
+.leaderboard-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: white;
+    flex-grow: 1; /* Takes up remaining space */
+}
+
+.leaderboard-score {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #b9f6ca;
+}
+
+
+
+/* ---
+   STYLES FOR REDEEM PAGE
+   --- */
+
+.rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.reward-card {
+    background-color: #2a5252;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.reward-icon {
+    font-size: 2em;
+    color: #b9f6ca;
+    flex-shrink: 0;
+}
+
+.reward-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+    color: white;
+}
+.reward-info p {
+    margin: 0;
+    font-size: 0.9em;
+    color: #b0bec5;
+    line-height: 1.4;
+}
+
+.btn-redeem {
+    background-color: #b9f6ca;
+    color: #1b5e20;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: auto; /* Push button to the right */
+    flex-shrink: 0;
+    transition: background-color 0.2s ease;
+}
+.btn-redeem i {
+    margin-right: 5px;
+}
+.btn-redeem:hover {
+    background-color: #ffffff;
+}
+.btn-redeem:disabled {
+    background-color: #3a7575;
+    color: #b0bec5;
+    cursor: not-allowed;
+}
+.btn-redeem.redeemed {
+    background-color: #3a7575;
+    color: #b9f6ca;
+}
+
+/* ---
+   STYLES FOR NEW SPROUT LINK (on Dashboard)
+   --- */
+
+#sprout-link-card {
+    /* We reuse .card-action-small, just need to center the icon */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    gap: 15px;
+}
+#sprout-link-card i {
+    font-size: 2.5em;
+    margin: 0; /* Remove the margin-right */
+}
+#sprout-link-card p {
+    font-size: 1.1em;
+}
+
+/* ---
+   STYLES FOR MY SPROUT PAGE
+   --- */
+
+.sprout-page-wrapper {
+    /* Center the content on this page */
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.sprout-pot-large {
+    width: 300px;
+    height: 300px;
+    background-color: #1b3a3a; /* Dark "soil" color */
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden; /* This is the magic! Hides the tree */
+    margin: 0 auto 30px auto; /* Center the pot */
+    
+    /* Centering the tree */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Aligns the tree to the bottom */
+}
+
+.sprout-image-large {
+    height: 0%; /* Starts at 0, filled by inline style */
+    width: 270px; /* 90% of the pot */
+    max-height: 100%; 
+    object-fit: contain;
+    
+    /* A little transition to make the growth smooth */
+    transition: height 0.8s ease-out;
+}
+
+.sprout-page-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+
+
+/* ---
+   STYLES FOR TRANSACTION HISTORY
+   --- */
+
+.badge-pending {
+    background-color: #ffe082; /* Yellow */
+    color: #4e342e;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.badge-logged-dark {
+    background-color: #3a7575; /* Dark Green */
+    color: #b9f6ca;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+
+
+
+/* ---
+   STYLES FOR CUSTOMER INSIGHTS
+   --- */
+
+.insight-value {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #b9f6ca;
+}
+
+
+/* ---
+   STYLES FOR ECO-TIPS PAGE
+   --- */
+
+.tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.tip-card {
+    background-color: #2a5252;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.tip-icon {
+    font-size: 2.5em;
+    color: #b9f6ca;
+    margin-bottom: 15px;
+}
+
+.tip-card h4 {
+    margin: 0 0 10px 0;
+    font-size: 1.3em;
+}
+
+.tip-card p {
+    margin: 0;
+    color: #eceff1;
+    line-height: 1.6;
+}
+
+
+
+/* ---
+   STYLES FOR ECO-ADVISOR (CHAT)
+   --- */
+
+.chat-wrapper {
+    display: flex;
+    flex-direction: column;
+    /* Make the chat window take up all the space */
+    height: calc(100vh - 170px); 
+}
+
+.chat-window {
+    flex-grow: 1; /* This makes the window fill the space */
+    background-color: #1b3a3a;
+    border-radius: 12px;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    max-width: 80%;
+}
+
+.chat-message i {
+    font-size: 1.5em;
+    padding-top: 12px;
+    color: #b9f6ca;
+}
+
+.chat-message p {
+    margin: 0;
+    padding: 12px 15px;
+    background-color: #2a5252;
+    border-radius: 12px;
+    line-height: 1.6;
+}
+
+/* Style for the user's messages */
+.user-message {
+    align-self: flex-end; /* Push to the right */
+    flex-direction: row-reverse; /* Put icon on the right */
+}
+.user-message p {
+    background-color: #3a7575;
+}
+.user-message i {
+    color: #b0bec5;
+}
+
+/* Pre-set question buttons */
+.chat-suggestions {
+    margin-top: 20px;
+    flex-shrink: 0; /* Don't let this area shrink */
+}
+.chat-suggestions h4 {
+    margin: 0 0 10px 0;
+    color: #b0bec5;
+}
+
+.chat-suggestion-btn {
+    background-color: #2a5252;
+    border: 1px solid #3a7575;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease;
+}
+.chat-suggestion-btn:hover {
+    background-color: #3a7575;
+}
+
+/* "Typing" animation */
+.typing-dots p {
+    padding: 15px;
+}
+.typing-dots span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #b0bec5;
+    animation: typing-wave 1.4s infinite;
+}
+.typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+@keyframes typing-wave {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-5px);
+    }
+}
+
+
+
+/* ---
+   STYLES FOR REFER & EARN PAGE
+   --- */
+
+.referral-code-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1b3a3a;
+    border: 2px dashed #3a7575;
+    border-radius: 12px;
+    padding: 20px;
+}
+.referral-code-box span {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #b9f6ca;
+    letter-spacing: 2px;
+}
+
+.btn-copy-code {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+.btn-copy-code:hover {
+    opacity: 1;
+}
+
+.how-it-works-list {
+    list-style: none;
+    padding-left: 0;
+}
+.how-it-works-list li {
+    font-size: 1.1em;
+    color: #eceff1;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.how-it-works-list li i {
+    color: #b9f6ca;
+    font-size: 1.2em;
+}
+
+
+
+/* ---
+   STYLES FOR SETTINGS PAGE
+   --- */
+
+#password-message-display {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+}
+/* We can re-use the message styles from the bill page */
+
+
+
+/* ---
+   STYLES FOR SETTINGS PAGE (Shared)
+   --- */
+
+#password-message-display {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 15px;
+}
+/* We can re-use the message styles from the bill page */
+
+
+
+/* ---
+   STYLES FOR MY SUBSCRIPTION PAGE
+   --- */
+
+.subscription-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    align-items: stretch;
+}
+
+.sub-card {
+    background-color: #2a5252;
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    border: 3px solid transparent;
+}
+
+.sub-card.current-plan {
+    border-color: #b9f6ca;
+}
+
+.sub-header {
+    min-height: 60px; /* Align headers */
+}
+.sub-header h3 {
+    font-size: 1.5em;
+    margin: 0;
+}
+.plan-badge {
+    background-color: #b9f6ca;
+    color: #1b5e20;
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.sub-price {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin: 20px 0;
+}
+.sub-price span {
+    font-size: 0.5em;
+    font-weight: normal;
+    color: #b0bec5;
+}
+
+.sub-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+    flex-grow: 1; /* Pushes button to bottom */
+}
+.sub-features li {
+    margin-bottom: 12px;
+    color: #eceff1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.sub-features li i {
+    width: 20px;
+}
+.sub-features li .fa-check {
+    color: #b9f6ca;
+}
+.sub-features li .fa-times {
+    color: #ffcdd2;
+}
+
+.sub-card .btn-sign-in:disabled {
+    background-color: #3a7575;
+    color: #b0bec5;
+    cursor: not-allowed;
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refer & Earn</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+         </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <a href="{{ url_for('consumer_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper" style="text-align: center;">
+            <i class="fas fa-gift" style="font-size: 4em; color: #b9f6ca; margin-bottom: 20px;"></i>
+            <h1 class="content-title">Refer & Earn MossCoins</h1>
+            <p class="tagline" style="margin: -20px 0 30px 0;">Share MossPay with your friends and you'll both be rewarded!</p>
+
+            <div class="card" style="max-width: 500px; margin: 0 auto; background-color: #2a5252;">
+                <h4>Your Unique Referral Code</h4>
+                
+                <div class="referral-code-box">
+                    <span>{{ referral_code }}</span>
+                    <button class="btn-copy-code"><i class="fas fa-copy"></i></button>
+                </div>
+                
+                <button class="btn-sign-in" style="margin-top: 15px;">
+                    <i class="fas fa-share-alt"></i> Share Now
+                </button>
+            </div>
+
+            <div class="card" style="max-width: 500px; margin: 20px auto; text-align: left; background-color: #2a5252;">
+                <h4>How it works:</h4>
+                <ol class="how-it-works-list">
+                    <li><i class="fas fa-share-alt"></i> Share your code with a friend.</li>
+                    <li><i class="fas fa-user-plus"></i> Your friend signs up for MossPay using your code.</li>
+                    <li><i class="fas fa-coins"></i> You both get **200 MossCoins** after their first logged purchase!</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+    
+    </body>
+</html>

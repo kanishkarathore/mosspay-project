@@ -16,16 +16,16 @@
         
         <ul class="sidebar-menu">
             <li class="active"><a href="#"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
+            <li><a href="{{ url_for('manage_profile') }}"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
             <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
-            <li><a href="#"><i class="fas fa-tags"></i> Manage Offers</a></li>
-            <li><a href="#"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
-            <li><a href="#"><i class="fas fa-history"></i> Transaction History</a></li>
-            <li><a href="#"><i class="fas fa-gem"></i> My Subscription</a></li>
+            <li><a href="{{ url_for('manage_offers') }}"><i class="fas fa-tags"></i> Manage Offers</a></li>
+            <li><a href="{{ url_for('customer_insights') }}"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
+            <li><a href="{{ url_for('transaction_history') }}"><i class="fas fa-history"></i> Transaction History</a></li>
+            <li><a href="{{ url_for('my_subscription') }}"><i class="fas fa-gem"></i> My Subscription</a></li>
         </ul>
         
         <div class="sidebar-footer">
-            <a href="#"><i class="fas fa-question-circle"></i> Help & Support</a>
+        <a href="{{ url_for('vendor_settings') }}"><i class="fas fa-cog"></i> Settings</a>
             <a href="{{ url_for('vendor_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </nav>

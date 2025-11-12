@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Offers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('vendor_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li><a href="{{ url_for('manage_profile') }}"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
+            <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
+            <li class="active"><a href="{{ url_for('manage_offers') }}"><i class="fas fa-tags"></i> Manage Offers</a></li>
+          <li><a href="{{ url_for('customer_insights') }}"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
+            <li><a href="{{ url_for('transaction_history') }}"><i class="fas fa-history"></i> Transaction History</a></li>
+            <li><a href="{{ url_for('my_subscription') }}"><i class="fas fa-gem"></i> My Subscription</a></li>
+        </ul>
+        <div class="sidebar-footer">
+         <a href="{{ url_for('vendor_settings') }}"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('vendor_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
+
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class.topbar-right">
+                <a href="#" class="btn-topbar">View Insights</a>
+                <a href="#" class="btn-topbar btn-green-solid">Create New Offer</a>
+            </div>
+        </header>
+        
+        <div class.content-wrapper">
+            <h1 class="content-title">Manage Offers</h1>
+            <p class="tagline" style="text-align: left; margin: -20px 0 20px 0;">Create special discounts for customers to redeem with their MossCoins.</p>
+            
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="flash-message" style="max-width: none; margin-bottom: 20px;">
+                  {{ messages[0] }}
+                </div>
+              {% endif %}
+            {% endwith %}
+            
+            <div class="bill-generator-layout"> <div class="card card-add-item">
+                    <h3>Create New Offer</h3>
+                    <form action="{{ url_for('manage_offers') }}" method="POST">
+                        <div class="input-group">
+                            <label for="title">Offer Title</label>
+                            <input type="text" id="title" name="title" placeholder="e.g., 10% Off Jute Bags" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" rows="3" placeholder="A short description of the offer." required></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label for="mosscoin_cost">MossCoin Cost</label>
+                            <input type="number" id="mosscoin_cost" name="mosscoin_cost" placeholder="e.g., 500" required>
+                        </div>
+                        <button type="submit" class="btn-sign-in">Create Offer</button>
+                    </form>
+                </div>
+                
+                <div class.card item-list-panel">
+                    <h3>Your Active Offers</h3>
+                    <ul id="item-list">
+                        {% if offers %}
+                            {% for offer in offers %}
+                            <li class="item-list-entry">
+                                <div class="item-info">
+                                    <strong>{{ offer.title }}</strong>
+                                    <small>Cost: {{ offer.mosscoin_cost }} MossCoins</small>
+                                </div>
+                                <div class="item-controls">
+                                    <a href="#" class="btn-delete">Deactivate</a>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        {% else %}
+                            <p style="text-align: center; color: #b0bec5; padding: 20px 0;">You have no active offers.</p>
+                        {% endif %}
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+    
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

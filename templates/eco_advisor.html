@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Advisor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+         </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <a href="{{ url_for('consumer_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper chat-wrapper">
+            <h1 class="content-title">Eco-Advisor</h1>
+            
+            <div class="chat-window" id="chat-window">
+                <div class="chat-message ai-message">
+                    <i class="fas fa-robot"></i>
+                    <p>Hello! I'm the MossPay Eco-Advisor. I can help with eco-tips and questions about the app. Select a topic to start!</p>
+                </div>
+            </div>
+
+            <div class="chat-suggestions">
+                <h4>App Help</h4>
+                <button class.chat-suggestion-btn" data-question="How do I log a purchase?">How do I log a purchase?</button>
+                <button class="chat-suggestion-btn" data-question="How do I redeem my MossCoins?">How do I redeem my MossCoins?</button>
+                <h4>Eco Questions</h4>
+                <button class="chat-suggestion-btn" data-question="How can I reduce my water usage?">How can I reduce my water usage?</button>
+                <button class.chat-suggestion-btn" data-question="What's the most impactful way to recycle?">What's the most impactful way to recycle?</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='eco_advisor.js') }}"></script>
+</body>
+</html>

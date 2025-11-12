@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeem MossCoins</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+         </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <a href="{{ url_for('consumer_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class="topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class="content-wrapper">
+            <h1 class="content-title">Redeem Your MossCoins</h1>
+            
+            <div class="card card-balance" style="text-align: left; margin-bottom: 30px;">
+                <p>Your Available Balance</p>
+                <h2 class="balance-amount" id="user-balance">{{ user.mosscoin_balance }}</h2>
+                <p class="balance-subtext">MossCoins</p>
+            </div>
+
+            <h3>Partner Vendor Rewards</h3>
+            <div class="rewards-grid">
+                {% if vendor_offers %}
+                    {% for offer, vendor_name in vendor_offers %}
+                    <div class="reward-card">
+                        <div class="reward-icon"><i class="fas fa-store"></i></div>
+                        <div class="reward-info">
+                            <h4>{{ offer.title }}</h4>
+                            <p>{{ offer.description }} (from {{ vendor_name }})</p>
+                        </div>
+                        <button class="btn-redeem" data-reward-id="offer_{{ offer.id }}" data-cost="{{ offer.mosscoin_cost }}">
+                            <i class="fas fa-coins"></i> {{ offer.mosscoin_cost }}
+                        </button>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No vendor offers available right now. Check back soon!</p>
+                {% endif %}
+            </div>
+
+            <h3 style="margin-top: 30px;">Government Schemes</h3>
+            <div class.rewards-grid">
+                {% for id, reward in mock_rewards.items() %}
+                <div class="reward-card">
+                    <div class="reward-icon"><i class="fas fa-leaf"></i></div>
+                    <div class="reward-info">
+                        <h4>{{ reward.title }}</h4>
+                        <p>{{ reward.description }}</p>
+                    </div>
+                    <button class="btn-redeem" data-reward-id="{{ id }}" data-cost="{{ reward.cost }}">
+                        <i class.fas fa-coins"></i> {{ reward.cost }}
+                    </button>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='redeem.js') }}"></script>
+</body>
+</html>

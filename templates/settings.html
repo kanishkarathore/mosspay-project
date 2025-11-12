@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body class="dashboard-body">
+
+    <nav class="sidebar" id="sidebar">
+         </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="topbar-left">
+                <a href="{{ url_for('consumer_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+            </div>
+            <div class.topbar-right">
+                <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                <button class="icon-btn"><i class="fas fa-user-circle"></i></button>
+            </div>
+        </header>
+        
+        <div class.content-wrapper">
+            <h1 class="content-title">Settings</h1>
+            
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class.flash-message" id="flash-message" style="max-width: none; margin-bottom: 20px;">
+                  {{ messages[0] }}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            <div class="bill-generator-layout">
+                
+                <div class="card" style="background-color: #2a5252;">
+                    <h3>Update Your Profile</h3>
+                    <form action="{{ url_for('settings') }}" method="POST">
+                        <input type="hidden" name="form_name" value="update_profile">
+                        
+                        <div class="input-group">
+                            <label for="fullname">Full Name</label>
+                            <input type="text" id="fullname" name="fullname" value="{{ user.fullname }}" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" value="{{ user.email }}" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" value="{{ user.phone }}" required>
+                        </div>
+                        
+                        <button type="submit" class="btn-sign-in">Save Profile</button>
+                    </form>
+                </div>
+                
+                <div class="card" style="background-color: #2a5252;">
+                    <h3>Change Your Password</h3>
+                    <form id="change-password-form">
+                        <div class.input-group">
+                            <label for="old_password">Old Password</label>
+                            <input type="password" id="old_password" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="new_password">New Password</label>
+                            <input type="password" id="new_password" required>
+                        </div>
+                        <button type="submit" class="btn-sign-in">Update Password</button>
+                    </form>
+                    <div id="password-message-display"></div>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='settings.js') }}"></script>
+</body>
+</html>
