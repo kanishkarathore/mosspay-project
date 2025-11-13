@@ -307,7 +307,9 @@ body {
     flex-grow: 1;
 }
 
-.sidebar-menu li a {
+/* --- THIS IS FIX #1 --- */
+.sidebar-menu li a,
+.sidebar-menu li a:visited {
     display: block;
     padding: 15px;
     color: #b0bec5;
@@ -338,7 +340,9 @@ body {
     border-top: 1px solid #3a6363;
 }
 
-.sidebar-footer a {
+/* --- THIS IS FIX #2 --- */
+.sidebar-footer a,
+.sidebar-footer a:visited {
     display: block;
     color: #b0bec5;
     text-decoration: none;
@@ -381,6 +385,14 @@ body {
     font-size: 1.5em;
     cursor: pointer;
 }
+
+/* This is the back arrow link, override visited styles */
+.topbar-left a.icon-btn,
+.topbar-left a.icon-btn:visited {
+    color: white;
+    text-decoration: none;
+}
+
 
 .topbar-right .icon-btn {
     margin-left: 20px;
@@ -431,20 +443,6 @@ body {
 .balance-subtext {
     font-size: 0.9em !important;
     color: #b9f6ca !important;
-}
-
-.sprout-stats {
-    display: flex;
-    gap: 30px;
-    text-align: right;
-}
-.sprout-stats strong {
-    font-size: 1.3em;
-}
-.sprout-stats p {
-    margin: 5px 0 0 0;
-    color: #b0bec5;
-    font-size: 0.9em;
 }
 
 .stats-grid {
@@ -642,9 +640,11 @@ body {
     background-color: #ffffff;
 }
 
-a.btn-topbar {
+a.btn-topbar,
+a.btn-topbar:visited {
     color: #eceff1;
     border: 1px solid #3a6363;
+    text-decoration: none;
 }
 a.btn-topbar:hover {
     background-color: #3a6363;
@@ -1109,6 +1109,7 @@ a.btn-topbar:hover {
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3; /* <-- ADD THIS LINE */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1408,7 +1409,7 @@ a.btn-topbar:hover {
 }
 
 .sprout-image-large {
-    height: 0%; /* Starts at 0, filled by inline style */
+    height: var(--growth-percent); /* Use the CSS variable */
     width: 270px; /* 90% of the pot */
     max-height: 100%; 
     object-fit: contain;
@@ -1422,44 +1423,6 @@ a.btn-topbar:hover {
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
-
-
-
-/* ---
-   STYLES FOR TRANSACTION HISTORY
-   --- */
-
-.badge-pending {
-    background-color: #ffe082; /* Yellow */
-    color: #4e342e;
-    font-size: 0.9em;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.badge-logged-dark {
-    background-color: #3a7575; /* Dark Green */
-    color: #b9f6ca;
-    font-size: 0.9em;
-    font-weight: bold;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-
-
-
-/* ---
-   STYLES FOR CUSTOMER INSIGHTS
-   --- */
-
-.insight-value {
-    font-size: 1.1em;
-    font-weight: bold;
-    color: #b9f6ca;
-}
-
 
 /* ---
    STYLES FOR ECO-TIPS PAGE
@@ -1493,8 +1456,6 @@ a.btn-topbar:hover {
     color: #eceff1;
     line-height: 1.6;
 }
-
-
 
 /* ---
    STYLES FOR ECO-ADVISOR (CHAT)
@@ -1604,8 +1565,6 @@ a.btn-topbar:hover {
     }
 }
 
-
-
 /* ---
    STYLES FOR REFER & EARN PAGE
    --- */
@@ -1656,21 +1615,6 @@ a.btn-topbar:hover {
     font-size: 1.2em;
 }
 
-
-
-/* ---
-   STYLES FOR SETTINGS PAGE
-   --- */
-
-#password-message-display {
-    text-align: center;
-    font-weight: bold;
-    margin-top: 15px;
-}
-/* We can re-use the message styles from the bill page */
-
-
-
 /* ---
    STYLES FOR SETTINGS PAGE (Shared)
    --- */
@@ -1680,9 +1624,32 @@ a.btn-topbar:hover {
     font-weight: bold;
     margin-top: 15px;
 }
-/* We can re-use the message styles from the bill page */
+.message-success { color: #b9f6ca; }
+.message-error { color: #ffcdd2; }
+.message-sending { color: #b0bec5; }
 
 
+/* ---
+   STYLES FOR TRANSACTION HISTORY
+   --- */
+
+.badge-pending {
+    background-color: #ffe082; /* Yellow */
+    color: #4e342e;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.badge-logged-dark {
+    background-color: #3a7575; /* Dark Green */
+    color: #b9f6ca;
+    font-size: 0.9em;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
 /* ---
    STYLES FOR MY SUBSCRIPTION PAGE
@@ -1762,4 +1729,102 @@ a.btn-topbar:hover {
     background-color: #3a7575;
     color: #b0bec5;
     cursor: not-allowed;
+}
+
+
+
+/* ---
+   STYLES FOR VENDOR FLOATING BUTTONS
+   --- */
+
+/* Common style for both buttons */
+.fab-vendor {
+    position: fixed;
+    bottom: 30px;
+    width: 80px;  /* Make them a bit wider to fit text */
+    height: 80px;
+    border-radius: 50%;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: transform 0.2s ease;
+}
+.fab-vendor:hover {
+    transform: scale(1.05);
+}
+.fab-vendor i {
+    font-size: 1.8em;
+}
+.fab-vendor span {
+    font-size: 0.7em;
+    font-weight: bold;
+    margin-top: 4px;
+}
+
+/* Button 1: Generate Bill (Left of center) */
+#fab-generate-bill {
+    background-color: #b9f6ca; /* Light green */
+    color: #1b5e20;
+    left: 50%;
+    /* Move left by 100% of its own width + 10px padding */
+    transform: translateX(calc(-100% - 10px));
+}
+
+/* Button 2: Scan & Pay (Right of center) */
+#fab-scan-pay-vendor {
+    background-color: #3a7575; /* Darker green */
+    color: white;
+    left: 50%;
+    /* Move right by 10px */
+    transform: translateX(10px);
+}
+
+
+
+/* ---
+   STYLES FOR LOW STOCK ALERT
+   --- */
+
+.card-alert-low-stock,
+.card-alert-low-stock:visited {
+    display: flex;
+    align-items: center;
+    background-color: #4a2a2a; /* Dark red background */
+    border: 1px solid #ffcdd2; /* Light red border */
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.2s ease;
+}
+.card-alert-low-stock:hover {
+    background-color: #613a3a;
+}
+
+.card-alert-low-stock .fa-exclamation-triangle {
+    font-size: 1.8em;
+    color: #ffcdd2;
+    margin-right: 20px;
+}
+
+.card-alert-low-stock .alert-text strong {
+    font-size: 1.2em;
+    color: white;
+}
+.card-alert-low-stock .alert-text p {
+    margin: 5px 0 0 0;
+    color: #eceff1;
+    line-height: 1.5;
+}
+.card-alert-low-stock .fa-chevron-right {
+    margin-left: auto;
+    color: #b0bec5;
+    font-size: 1.2em;
 }

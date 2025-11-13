@@ -13,11 +13,11 @@
         <div class="sidebar-header">
             <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
         </div>
-        <ul class.sidebar-menu">
+        <ul class="sidebar-menu">
             <li><a href="{{ url_for('vendor_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
             <li><a href="{{ url_for('manage_profile') }}"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
             <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
-            <li><a href="{{ url_for('manage_offers') }}"><i class.fas fa-tags"></i> Manage Offers</a></li>
+            <li><a href="{{ url_for('manage_offers') }}"><i class="fas fa-tags"></i> Manage Offers</a></li>
             <li class="active"><a href="{{ url_for('customer_insights') }}"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
             <li><a href="{{ url_for('transaction_history') }}"><i class="fas fa-history"></i> Transaction History</a></li>
             <li><a href="{{ url_for('my_subscription') }}"><i class="fas fa-gem"></i> My Subscription</a></li>
@@ -32,16 +32,18 @@
 
     <main class="main-content">
         <header class="topbar">
-            <div class.topbar-left">
-                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+            <div class="topbar-left">
+                <a href="{{ url_for('vendor_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             </div>
-            <div class.topbar-right">
+            <div class="topbar-right">
                 <a href="#" class="btn-topbar">View Insights</a>
                 <a href="#" class="btn-topbar btn-green-solid">Create New Offer</a>
             </div>
         </header>
         
-        <div class.content-wrapper">
+        <div class="content-wrapper">
             <h1 class="content-title">Customer Insights</h1>
             
             <div class="stats-grid-vendor">
@@ -55,14 +57,15 @@
                     <strong>{{ total_customers }}</strong>
                     <small>Unique customers via MossPay</small>
                 </div>
-                <div class.card card-stat-vendor">
+                <div class="card card-stat-vendor">
                     <p>Total CO₂ Saved by Customers</p>
                     <strong>{{ total_co2|round(1) }} kg</strong>
                     <small>Est. total impact</small>
                 </div>
             </div>
 
-            <div class="bill-generator-layout"> <div class="card item-list-panel">
+            <div class="bill-generator-layout"> 
+                <div class="card item-list-panel">
                     <h3>Your Top 5 Products</h3>
                     <ul id="item-list">
                         {% if top_items %}
@@ -102,6 +105,5 @@
         </div>
     </main>
     
-    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
-</body>
+    </body>
 </html>

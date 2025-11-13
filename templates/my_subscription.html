@@ -13,11 +13,11 @@
         <div class="sidebar-header">
             <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
         </div>
-        <ul class.sidebar-menu">
+        <ul class="sidebar-menu">
             <li><a href="{{ url_for('vendor_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
             <li><a href="{{ url_for('manage_profile') }}"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
             <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
-            <li><a href="{{ url_for('manage_offers') }}"><i class.fas fa-tags"></i> Manage Offers</a></li>
+            <li><a href="{{ url_for('manage_offers') }}"><i class="fas fa-tags"></i> Manage Offers</a></li>
             <li><a href="{{ url_for('customer_insights') }}"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
             <li><a href="{{ url_for('transaction_history') }}"><i class="fas fa-history"></i> Transaction History</a></li>
             <li class="active"><a href="{{ url_for('my_subscription') }}"><i class="fas fa-gem"></i> My Subscription</a></li>
@@ -32,22 +32,24 @@
 
     <main class="main-content">
         <header class="topbar">
-            <div class.topbar-left">
-                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+            <div class="topbar-left">
+                <a href="{{ url_for('vendor_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             </div>
-            <div class.topbar-right">
+            <div class="topbar-right">
                 <a href="#" class="btn-topbar">View Insights</a>
                 <a href="#" class="btn-topbar btn-green-solid">Create New Offer</a>
             </div>
         </header>
         
-        <div class.content-wrapper">
+        <div class="content-wrapper">
             <h1 class="content-title">My Subscription</h1>
             <p class="tagline" style="text-align: left; margin: -20px 0 30px 0;">Choose the plan that's right for your business.</p>
 
             <div class="subscription-grid">
                 
-                <div class.card sub-card current-plan">
+                <div class="card sub-card current-plan">
                     <div class="sub-header">
                         <h3>MossPay Basic</h3>
                         <span class="plan-badge">Your Current Plan</span>
@@ -63,23 +65,23 @@
                     <button class="btn-sign-in" disabled>Subscribed</button>
                 </div>
 
-                <div class.card sub-card">
-                    <div class.sub-header">
+                <div class="card sub-card">
+                    <div class="sub-header">
                         <h3>MossPay Pro</h3>
                     </div>
-                    <div class="sub-price">₹499 <span>/ month</span></div>
-                    <ul class.sub-features">
-                        <li><i class.fas fa-check"></i> Unlimited item listings</li>
-                        <li><i class.fas fa-check"></i> Accept MossCoin payments</li>
-                        <li><i class.fas fa-check"></i> Full transaction history</li>
-                        <li><i class.fas fa-check"></i> Customer Insights</li>
-                        <li><i class.fas fa-check"></i> Create special offers</li>
+                    <div class="sub-price">₹99 <span>/ month</span></div>
+                    <ul class="sub-features">
+                        <li><i class="fas fa-check"></i> Unlimited item listings</li>
+                        <li><i class="fas fa-check"></i> Accept MossCoin payments</li>
+                        <li><i class="fas fa-check"></i> Full transaction history</li>
+                        <li><i class="fas fa-check"></i> Customer Insights</li>
+                        <li><i class="fas fa-check"></i> Create special offers</li>
                     </ul>
                     <button class="btn-sign-in">Upgrade to Pro</button>
                 </div>
                 
-                <div class.card sub-card">
-                    <div class.sub-header">
+                <div class="card sub-card">
+                    <div class="sub-header">
                         <h3>Enterprise</h3>
                     </div>
                     <div class="sub-price">Contact Us</div>
@@ -87,7 +89,7 @@
                         <li><i class="fas fa-check"></i> All Pro features</li>
                         <li><i class="fas fa-check"></i> API access</li>
                         <li><i class="fas fa-check"></i> Dedicated support</li>
-                        <li><i class.fas fa-check"></i> Custom integrations</li>
+                        <li><i class="fas fa-check"></i> Custom integrations</li>
                         <li><i class="fas fa-check"></i> White-labeling</li>
                     </ul>
                     <button class="btn-topbar" style="width: 100%; text-align: center; box-sizing: border-box;">Contact Sales</button>
@@ -97,6 +99,5 @@
         </div>
     </main>
     
-    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
-</body>
+    </body>
 </html>

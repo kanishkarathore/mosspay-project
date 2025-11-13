@@ -17,8 +17,6 @@
             <li><a href="{{ url_for('vendor_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
             <li><a href="{{ url_for('manage_profile') }}"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
             <li class="active"><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
-            <li><a href="{{ url_for('manage_profile') }}"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
-            <li class="active"><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
             <li><a href="{{ url_for('manage_offers') }}"><i class="fas fa-tags"></i> Manage Offers</a></li>
             <li><a href="{{ url_for('customer_insights') }}"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
             <li><a href="{{ url_for('transaction_history') }}"><i class="fas fa-history"></i> Transaction History</a></li>
@@ -35,7 +33,9 @@
     <main class="main-content">
         <header class="topbar">
             <div class="topbar-left">
-                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+                <a href="{{ url_for('vendor_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             </div>
             <div class="topbar-right">
                 <a href="#" class="btn-topbar">View Insights</a>
@@ -106,7 +106,6 @@
         </div>
     </main>
     
-    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
     <script src="{{ url_for('static', filename='manage_items.js') }}"></script>
 </body>
 </html>

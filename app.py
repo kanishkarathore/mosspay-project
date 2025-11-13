@@ -432,12 +432,25 @@ def vendor_dashboard():
     if 'vendor_id' not in session:
         flash('You must be logged in to see this page.')
         return redirect(url_for('vendor_login'))
+    
     vendor = Vendor.query.get(session['vendor_id'])
     if not vendor:
         session.pop('vendor_id', None)
         flash('Could not find vendor. Please log in again.')
         return redirect(url_for('vendor_login'))
-    return render_template('vendor_dashboard.html', vendor=vendor)
+    
+    # --- NEW: LOW STOCK QUERY ---
+    # Find all items for this vendor with stock <= 10
+    low_stock_items = Item.query.filter(
+        Item.vendor_id == session['vendor_id'],
+        Item.stock <= 10
+    ).order_by(Item.stock.asc()).all()
+    
+    return render_template(
+        'vendor_dashboard.html', 
+        vendor=vendor, 
+        low_stock_items=low_stock_items  # <-- Pass the list to the template
+    )
 
 @app.route('/vendor/logout')
 def vendor_logout():

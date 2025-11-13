@@ -33,7 +33,9 @@
     <main class="main-content">
         <header class="topbar">
             <div class="topbar-left">
-                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
+                <a href="{{ url_for('vendor_dashboard') }}" class="icon-btn">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
             </div>
             <div class="topbar-right">
                 <a href="#" class="btn-topbar">View Insights</a>
@@ -85,6 +87,5 @@
         </div>
     </main>
     
-    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
-</body>
+    </body>
 </html>
