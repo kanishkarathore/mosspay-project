@@ -1,38 +1,50 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    const allLogButtons = document.querySelectorAll('.btn-log-purchase');
+    const logPurchaseList = document.querySelector('.log-purchase-list');
 
-    allLogButtons.forEach(button => {
-        button.addEventListener('click', async function() {
-            const billId = this.dataset.billId;
-            const cardFooter = this.parentElement;
+    logPurchaseList.addEventListener('click', async function(e) {
+        
+        // --- Logic for "Log Purchase" Button ---
+        const logButton = e.target.closest('.btn-log-purchase');
+        if (logButton) {
+            const billId = logButton.dataset.billId;
+            const cardFooter = logButton.parentElement;
 
             try {
-                // 1. Send the bill ID to the backend API
                 const response = await fetch('/api/consumer/log-purchase', {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({ bill_id: billId })
                 });
-
                 const result = await response.json();
 
                 if (response.ok) {
-                    // 2. Success! Change the button to a "Logged" badge
                     cardFooter.innerHTML = `
                         <span class="badge-logged">
                             <i class="fas fa-check-circle"></i> Logged!
                         </span>
                     `;
-                    // You could also update the main MossCoin balance on the page here
+                    // Update the header badge to show "Logged"
+                    const header = cardFooter.closest('.bill-card').querySelector('.bill-card-header');
+                    header.classList.remove('clickable'); // No need to expand
                 } else {
-                    // 3. Show an error
                     alert(`Error: ${result.error}`);
                 }
             } catch (error) {
                 alert(`Error: ${error.message}`);
             }
-        });
-    });
+        }
+        
+        // --- NEW: Logic for Expanding the Card ---
+        const cardHeader = e.target.closest('.bill-card-header.clickable');
+        if (cardHeader) {
+            const billCard = cardHeader.closest('.bill-card');
+            const details = billCard.querySelector('.bill-card-details');
+            const icon = cardHeader.querySelector('.expand-icon');
 
+            // Toggle visibility
+            details.classList.toggle('visible');
+            icon.classList.toggle('rotated');
+        }
+    });
 });

@@ -27,11 +27,54 @@ login_manager.init_app(app)
 login_manager.login_view = 'consumer_login'
 login_manager.login_message = 'Please log in to access this page.'
 
-# --- MOCK DATABASES ---
-MOCK_CARBON_DB = {
-    # ... (all 50 items) ...
-    "Local Apples": 0.2, "Imported Apples": 0.8, "Local Potatoes": 0.1, "Local Tomatoes": 0.3, "Imported Tomatoes": 1.1, "Local Bananas": 0.4, "Imported Bananas": 0.9, "Local Onions": 0.2, "Local Carrots": 0.2, "Organic Spinach": 0.4, "Field-grown Lettuce": 0.3, "Greenhouse Lettuce": 1.2, "Lentils (1kg)": 0.9, "Chickpeas (1kg)": 1.1, "White Rice (1kg)": 2.5, "Brown Rice (1kg)": 2.0, "Oats (1kg)": 0.8, "Whole Wheat Flour (1kg)": 0.6, "White Flour (1kg)": 0.8, "Pasta (500g)": 0.7, "Canned Tomatoes": 0.5, "Canned Beans": 0.4, "Olive Oil (1L)": 3.0, "Sugar (1kg)": 1.2, "Coffee (ground, 500g)": 3.5, "Black Tea (100 bags)": 0.8, "Almond Milk (1L)": 0.7, "Soy Milk (1L)": 0.5, "Oat Milk (1L)": 0.4, "Local Cow's Milk (1L)": 1.5, "Local Cheese (500g)": 4.5, "Local Eggs (12)": 1.2, "Local Chicken (1kg)": 4.5, "Tofu (1kg)": 2.0, "Bamboo Toothbrush": 0.3, "Plastic Toothbrush": 1.5, "Bar Soap (100g)": 0.2, "Liquid Soap (250ml)": 0.8, "Recycled Toilet Paper (4 pack)": 1.0, "Regular Toilet Paper (4 pack)": 2.0, "Eco-friendly Detergent (1L)": 1.5, "Regular Detergent (1L)": 3.0, "Reusable Cleaning Cloth": 0.1, "Jute Bag": 1.5, "Organic Cotton Tote Bag": 1.2, "Reusable Coffee Cup": 1.2, "Reusable Water Bottle": 1.0, "Glass Food Container": 0.8, "Beeswax Wraps (set)": 0.4
+# ---
+# UPDATED: CARBON FOOTPRINT DATABASE
+# Simplified names, 5 categories, and sustainable vs. unsustainable logic
+# ---
+CARBON_FOOTPRINT_DB = {
+    "Food & Produce": {
+        "Apple": {"sustainable_kg": 0.3, "unsustainable_kg": 0.8},
+        "Tomatoes": {"sustainable_kg": 0.5, "unsustainable_kg": 2.5},
+        "Oat Milk": {"sustainable_kg": 0.9, "unsustainable_kg": 3.2},
+        "Milk": {"sustainable_kg": 1.5, "unsustainable_kg": 3.2},
+        "Tofu": {"sustainable_kg": 2.0, "unsustainable_kg": 6.9},
+        "Lentils": {"sustainable_kg": 0.9, "unsustainable_kg": 50.0}, # vs. Beef
+        "Bread": {"sustainable_kg": 0.6, "unsustainable_kg": 1.0},
+        "Eggs": {"sustainable_kg": 2.1, "unsustainable_kg": 3.5},
+        "Potatoes": {"sustainable_kg": 0.1, "unsustainable_kg": 0.5},
+        "Rice": {"sustainable_kg": 2.0, "unsustainable_kg": 2.5},
+        "Coffee": {"sustainable_kg": 3.5, "unsustainable_kg": 7.0},
+        "Tea": {"sustainable_kg": 0.8, "unsustainable_kg": 1.6},
+    },
+    "Bags & Containers": {
+        "Jute Bag": {"sustainable_kg": 0.2, "unsustainable_kg": 1.8},
+        "Cotton Tote Bag": {"sustainable_kg": 0.5, "unsustainable_kg": 1.8},
+        "Beeswax Wraps": {"sustainable_kg": 0.1, "unsustainable_kg": 0.5},
+        "Reusable Water Bottle": {"sustainable_kg": 0.8, "unsustainable_kg": 21.0}, 
+        "Reusable Coffee Cup": {"sustainable_kg": 0.5, "unsustainable_kg": 15.0},
+        "Glass Food Container": {"sustainable_kg": 0.8, "unsustainable_kg": 1.5},
+    },
+    "Household": {
+        "Recycled Toilet Paper": {"sustainable_kg": 1.0, "unsustainable_kg": 2.0},
+        "Eco-friendly Detergent": {"sustainable_kg": 1.5, "unsustainable_kg": 3.0},
+        "LED Bulb": {"sustainable_kg": 0.2, "unsustainable_kg": 1.0},
+        "Compost Bin": {"sustainable_kg": 2.0, "unsustainable_kg": 5.0},
+        "Reusable Cleaning Cloth": {"sustainable_kg": 0.1, "unsustainable_kg": 0.5},
+    },
+    "Personal Care": {
+        "Bamboo Toothbrush": {"sustainable_kg": 0.1, "unsustainable_kg": 0.8},
+        "Bar Soap": {"sustainable_kg": 0.2, "unsustainable_kg": 0.6},
+        "Shampoo Bar": {"sustainable_kg": 0.1, "unsustainable_kg": 0.7},
+        "Reusable Makeup Pad": {"sustainable_kg": 0.05, "unsustainable_kg": 0.3},
+    },
+    "Artifacts & Decor": {
+        "Terracotta Pot": {"sustainable_kg": 1.0, "unsustainable_kg": 3.5},
+        "Handwoven Rug": {"sustainable_kg": 2.0, "unsustainable_kg": 10.0},
+        "Recycled Glass Vase": {"sustainable_kg": 0.8, "unsustainable_kg": 2.0},
+        "Wooden Bowl": {"sustainable_kg": 0.5, "unsustainable_kg": 1.5},
+    }
 }
+
 
 MOCK_REWARDS_DB = {
     "gov_1": {"type": "Government Scheme", "title": "Plant a Tree in Your Name", "description": "We'll partner with a local NGO to plant a tree.", "cost": 500},
@@ -78,6 +121,7 @@ class Item(db.Model):
     stock = db.Column(db.Integer, nullable=False, default=0)
     carbon_saved_kg = db.Column(db.Float, default=0.0)
     vendor_id = db.Column(db.Integer, db.ForeignKey('vendor.id'), nullable=False)
+    bill_items = db.relationship('BillItem', back_populates='item', lazy=True)
     def __repr__(self): return f'<Item {self.name}>'
 
 class Bill(db.Model):
@@ -89,6 +133,7 @@ class Bill(db.Model):
     mosscoins_to_award = db.Column(db.Integer, default=0) 
     status = db.Column(db.String(20), default='pending') 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    items = db.relationship('BillItem', back_populates='bill', lazy='joined')
 
 class BillItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -97,6 +142,8 @@ class BillItem(db.Model):
     quantity = db.Column(db.Integer, nullable=False)
     price_at_sale = db.Column(db.Float, nullable=False) 
     carbon_at_sale = db.Column(db.Float, nullable=False)
+    bill = db.relationship('Bill', back_populates='items')
+    item = db.relationship('Item', back_populates='bill_items', lazy='joined')
 
 class Offer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -432,24 +479,19 @@ def vendor_dashboard():
     if 'vendor_id' not in session:
         flash('You must be logged in to see this page.')
         return redirect(url_for('vendor_login'))
-    
     vendor = Vendor.query.get(session['vendor_id'])
     if not vendor:
         session.pop('vendor_id', None)
         flash('Could not find vendor. Please log in again.')
         return redirect(url_for('vendor_login'))
-    
-    # --- NEW: LOW STOCK QUERY ---
-    # Find all items for this vendor with stock <= 10
     low_stock_items = Item.query.filter(
         Item.vendor_id == session['vendor_id'],
         Item.stock <= 10
     ).order_by(Item.stock.asc()).all()
-    
     return render_template(
         'vendor_dashboard.html', 
         vendor=vendor, 
-        low_stock_items=low_stock_items  # <-- Pass the list to the template
+        low_stock_items=low_stock_items
     )
 
 @app.route('/vendor/logout')
@@ -458,36 +500,63 @@ def vendor_logout():
     flash("You have been logged out.")
     return redirect(url_for('vendor_login'))
 
+# --- UPDATED: MANAGE ITEMS ROUTE ---
 @app.route('/vendor/manage_items')
 def manage_items():
     if 'vendor_id' not in session:
         flash('You must be logged in to see this page.')
         return redirect(url_for('vendor_login'))
+    
     vendor_items = Item.query.filter_by(vendor_id=session['vendor_id']).all()
-    return render_template('manage_items.html', items=vendor_items, carbon_db=MOCK_CARBON_DB)
+    
+    # We need to format the new DB for the template
+    item_database_with_savings = {}
+    for category, items in CARBON_FOOTPRINT_DB.items():
+        # Create a sub-dictionary for each category
+        item_database_with_savings[category] = {}
+        for name, data in items.items():
+            saved = data['unsustainable_kg'] - data['sustainable_kg']
+            item_database_with_savings[category][name] = saved
+    
+    return render_template(
+        'manage_items.html', 
+        items=vendor_items, 
+        item_database=item_database_with_savings # Pass the categorized dict
+    )
 
+# --- UPDATED: ADD ITEM API ---
 @app.route('/api/vendor/add-item', methods=['POST'])
 def add_item():
     if 'vendor_id' not in session:
         return jsonify({'error': 'Not authorized'}), 401
+    
     data = request.json
     item_name_from_form = data['name']
-    carbon_value = 0.0
-    for mock_name, mock_value in MOCK_CARBON_DB.items():
-        if mock_name.lower() == item_name_from_form.lower():
-            carbon_value = mock_value
+    
+    # 1. Find the item in our new DB (case-insensitive)
+    carbon_saved = 0.0
+    found = False
+    for category, items in CARBON_FOOTPRINT_DB.items():
+        for name, values in items.items():
+            if name.lower() == item_name_from_form.lower():
+                carbon_saved = values['unsustainable_kg'] - values['sustainable_kg']
+                found = True
+                break
+        if found:
             break
+            
     try:
         new_item = Item(
             name=item_name_from_form,
             price=float(data['price']),
             unit=data['unit'],
             stock=int(data['stock']),
-            carbon_saved_kg=carbon_value,
+            carbon_saved_kg=carbon_saved,
             vendor_id=session['vendor_id']
         )
         db.session.add(new_item)
         db.session.commit()
+        
         return jsonify({
             'id': new_item.id,
             'name': new_item.name,
@@ -496,6 +565,7 @@ def add_item():
             'stock': new_item.stock,
             'carbon_saved_kg': new_item.carbon_saved_kg
         }), 201
+        
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
@@ -749,14 +819,12 @@ def api_vendor_change_password():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-# --- NEW: MY SUBSCRIPTION ROUTE ---
 @app.route('/vendor/my_subscription')
 def my_subscription():
     if 'vendor_id' not in session:
         flash('You must be logged in to see this page.')
         return redirect(url_for('vendor_login'))
     
-    # We just pass a mock plan name for now
     current_plan = "MossPay Basic" 
     
     return render_template('my_subscription.html', current_plan=current_plan)

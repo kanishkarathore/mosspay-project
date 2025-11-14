@@ -10,7 +10,24 @@
 <body class="dashboard-body">
 
     <nav class="sidebar" id="sidebar">
-         </nav>
+        <div class="sidebar-header">
+            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="{{ url_for('consumer_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
+            <li class="active"><a href="{{ url_for('log_purchase') }}"><i class="fas fa-receipt"></i> Log Purchase</a></li>
+            <li><a href="{{ url_for('discover_vendors') }}"><i class="fas fa-store"></i> Discover Vendors</a></li>
+            <li><a href="{{ url_for('redeem') }}"><i class="fas fa-gift"></i> Redeem</a></li>
+            <li><a href="{{ url_for('leaderboard') }}"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+            <li><a href="{{ url_for('eco_tips') }}"><i class="fas fa-lightbulb"></i> Eco-Tips</a></li>
+            <li><a href="{{ url_for('refer_and_earn') }}"><i class="fas fa-comments"></i> Refer & Earn</a></li>
+            <li><a href="{{ url_for('eco_advisor') }}"><i class.fas fa-robot"></i> Eco-Advisor</a></li>
+        </ul>
+        <div class="sidebar-footer">
+            <a href="{{ url_for('settings') }}"><i class="fas fa-cog"></i> Settings</a>
+            <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </nav>
     <div class="overlay" id="overlay"></div>
 
     <main class="main-content">
@@ -28,16 +45,20 @@
         
         <div class="content-wrapper">
             <h1 class="content-title">Log Your Purchases</h1>
-            <p class="tagline" style="text-align: left; margin: -20px 0 20px 0;">Log your pending bills to earn MossCoins and grow your sprout.</p>
+            <p class="tagline" style="text-align: left; margin: -20px 0 20px 0;">Click on a bill to see details. Log your pending bills to earn MossCoins.</p>
 
             <div class="log-purchase-list">
                 {% if bills %}
                     {% for bill, vendor_name in bills %}
                     <div class="bill-card">
-                        <div class="bill-card-header">
-                            <h4>{{ vendor_name }}</h4>
-                            <span class="bill-date">{{ bill.created_at.strftime('%d %b %Y') }}</span>
+                        <div class="bill-card-header clickable">
+                            <div>
+                                <h4>{{ vendor_name }}</h4>
+                                <span class="bill-date">{{ bill.created_at.strftime('%d %b %Y') }}</span>
+                            </div>
+                            <i class="fas fa-chevron-down expand-icon"></i>
                         </div>
+                        
                         <div class="bill-card-body">
                             <div class="bill-detail">
                                 <span>Amount</span>
@@ -45,13 +66,26 @@
                             </div>
                             <div class="bill-detail">
                                 <span>CO₂ Saved</span>
-                                <strong>{{ bill.total_carbon_saved }} kg</strong>
+                                <strong>{{ bill.total_carbon_saved|round(1) }} kg</strong>
                             </div>
                             <div class="bill-detail reward">
                                 <span>Reward</span>
                                 <strong>+{{ bill.mosscoins_to_award }} MossCoins</strong>
                             </div>
                         </div>
+                        
+                        <div class.bill-card-details">
+                            <h5>Items in this purchase:</h5>
+                            <ul class="itemized-list">
+                                {% for bill_item in bill.items %}
+                                <li>
+                                    <span>{{ bill_item.item.name }} (x{{ bill_item.quantity }})</span>
+                                    <span>₹{{ "%.2f"|format(bill_item.price_at_sale * bill_item.quantity) }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
                         <div class="bill-card-footer">
                             {% if bill.status == 'pending' %}
                                 <button class="btn-sign-in btn-log-purchase" data-bill-id="{{ bill.id }}">

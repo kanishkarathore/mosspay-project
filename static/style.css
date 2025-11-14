@@ -126,7 +126,8 @@ body {
 .input-group input[type="password"],
 .input-group input[type="text"],
 .input-group input[type="tel"],
-.input-group input[type="date"] {
+.input-group input[type="date"]
+.input-group input[type="number"] {
     width: 100%;
     padding: 12px;
     background-color: #1b3a3a;
@@ -1827,4 +1828,55 @@ a.btn-topbar:hover {
     margin-left: auto;
     color: #b0bec5;
     font-size: 1.2em;
+}
+
+
+
+/* ---
+   STYLES FOR EXPANDABLE BILL
+   --- */
+
+.bill-card-header.clickable {
+    cursor: pointer;
+}
+.bill-card-header.clickable:hover {
+    background-color: #4a8a8a;
+}
+
+.expand-icon {
+    transition: transform 0.3s ease;
+}
+.expand-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.bill-card-details {
+    display: none; /* Hidden by default */
+    padding: 0 25px 20px 25px;
+    border-top: 1px solid #3a7575;
+}
+.bill-card-details.visible {
+    display: block; /* Show when clicked */
+}
+
+.bill-card-details h5 {
+    margin: 20px 0 10px 0;
+    color: #b0bec5;
+    font-size: 0.9em;
+}
+
+.itemized-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.itemized-list li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1em;
+    color: white;
+    padding: 8px 0;
+}
+.itemized-list li span:last-child {
+    font-weight: bold;
 }
