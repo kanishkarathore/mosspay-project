@@ -175,12 +175,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const qrText = `MossPay Bill\nTotal: ${totalAmount}\nCarbon Saved: ${totalCarbon}`;
         
-        qrCodeContainer.innerHTML = '';
-        new QRCode(qrCodeContainer, {
-            text: qrText,
-            width: 128,
-            height: 128
-        });
+    qrCodeContainer.innerHTML = '';
+    new QRCode(qrCodeContainer, {
+        text: qrText,
+        width: 256,
+        height: 256
+    });
         messageDisplay.textContent = 'QR code generated for bill details.';
         messageDisplay.className = 'message-success';
     });

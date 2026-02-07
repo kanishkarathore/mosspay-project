@@ -1,16 +1,23 @@
 /* --- GENERAL & WELCOME PAGE --- */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     text-align: center;
     margin: 0;
     padding: 20px;
-    background-color: #214141; /* Dark teal background */
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%); /* Futuristic gradient background */
+    background-attachment: fixed;
     color: white;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    animation: backgroundShift 10s ease-in-out infinite alternate; /* Subtle background animation */
+}
+
+@keyframes backgroundShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 .container {
@@ -55,29 +62,43 @@ body {
     color: white;
     border-radius: 8px;
     margin: 15px auto;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     border: none;
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(185, 246, 202, 0.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(185, 246, 202, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(185, 246, 202, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(185, 246, 202, 0.5); }
 }
 
 .btn-green {
-    background-color: #b9f6ca;
+    background: linear-gradient(45deg, #b9f6ca, #00e676);
     color: #1b5e20;
     font-weight: bold;
+    border: 2px solid #b9f6ca;
 }
 
 .btn-green:hover {
-    background-color: #ffffff;
+    background: linear-gradient(45deg, #ffffff, #b9f6ca);
+    box-shadow: 0 0 20px rgba(185, 246, 202, 1);
+    transform: scale(1.05);
 }
 
 .btn-dark-green {
-    background-color: #0d47a1;
+    background: linear-gradient(45deg, #0d47a1, #1976d2);
     color: white;
     font-weight: bold;
+    border: 2px solid #1976d2;
 }
 
 .btn-dark-green:hover {
-    background-color: #1a56c0;
+    background: linear-gradient(45deg, #1a56c0, #42a5f5);
+    box-shadow: 0 0 20px rgba(25, 118, 210, 1);
+    transform: scale(1.05);
 }
 
 /* --- STYLES FOR LOGIN/REGISTER PAGES --- */
@@ -413,10 +434,24 @@ body {
 }
 
 .card {
-    background-color: #2a5252;
+    background: linear-gradient(145deg, #2a5252, #1e3a3a);
     border-radius: 12px;
     padding: 25px;
     margin-bottom: 20px;
+    border: 1px solid rgba(185, 246, 202, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    animation: cardGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes cardGlow {
+    0% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+    100% { box-shadow: 0 4px 20px rgba(185, 246, 202, 0.1); }
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(185, 246, 202, 0.2);
 }
 
 /* ---
@@ -633,12 +668,23 @@ body {
     transition: background-color 0.3s ease;
 }
 
+/* --- BUTTON STYLES (Updated for Transparent/Outline Look) --- */
+
 .btn-green-solid {
-    background-color: #b9f6ca;
-    color: #1b5e20;
+    background-color: transparent; /* Makes it see-through */
+    border: 2px solid #b9f6ca;     /* Adds a green border */
+    color: #b9f6ca;                /* Green text */
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
+
 .btn-green-solid:hover {
-    background-color: #ffffff;
+    background-color: #b9f6ca;     /* Fills with green on hover */
+    color: #1b5e20;                /* Dark text on hover */
+    box-shadow: 0 0 10px rgba(185, 246, 202, 0.4); /* Optional glow */
 }
 
 a.btn-topbar,
@@ -928,11 +974,13 @@ a.btn-topbar:hover {
 
 #qr-code-container {
     margin: 20px auto 0 auto;
-    width: 128px;
-    height: 128px;
+    width: 256px;
+    height: 256px;
     background: white;
     padding: 10px;
     border-radius: 8px;
+    text-align: center;
+    border: 1px solid #3a6363;
 }
 #qr-code-container:empty {
     display: none;
@@ -1879,4 +1927,23 @@ a.btn-topbar:hover {
 }
 .itemized-list li span:last-child {
     font-weight: bold;
+}
+
+/* --- FIX FOR NUMBER INPUTS (Price & Stock) --- */
+.input-group input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #1b3a3a !important; /* Forces dark background */
+    border: 1px solid #3a6363;
+    border-radius: 5px;
+    color: white; /* Makes text white */
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* Optional: Removes the small up/down arrows in number boxes */
+.input-group input[type="number"]::-webkit-inner-spin-button, 
+.input-group input[type="number"]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
