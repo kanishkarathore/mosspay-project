@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MossPay - B2B Wholesale Market</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+        .b2b-container { max-width: 1200px; margin: 40px auto; padding: 20px; }
+        .header-section { text-align: center; margin-bottom: 40px; }
+        .header-section h1 { color: #2c3e50; }
+        .header-section p { color: #7f8c8d; font-size: 1.1em; }
+        
+        .b2b-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .b2b-card { background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; cursor: pointer; }
+        .b2b-card:hover { transform: translateY(-5px); }
+        
+        .vendor-name { font-size: 1.4em; color: #2c3e50; margin: 0 0 10px 0; font-weight: bold; }
+        .vendor-info { color: #7f8c8d; font-size: 0.95em; margin-bottom: 15px; }
+        .vendor-info strong { color: #2c3e50; }
+        
+        .category-badge { 
+            display: inline-block; background-color: #e8f5e9; color: #2e7d32; 
+            padding: 5px 12px; border-radius: 20px; font-size: 0.85em; margin-bottom: 15px;
+        }
+        
+        .address-section { 
+            background: #f8f9fa; border-left: 4px solid #3498db; padding: 12px; 
+            border-radius: 4px; margin-bottom: 15px; font-size: 0.9em; 
+        }
+        
+        .items-section { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; }
+        .items-section.show { display: block; }
+        
+        .items-list { list-style: none; padding: 0; margin: 0; }
+        .items-list li { 
+            padding: 10px; margin-bottom: 8px; background: #f8f9fa; border-radius: 6px; 
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .item-name { font-weight: 600; color: #2c3e50; }
+        .item-details { font-size: 0.85em; color: #7f8c8d; }
+        .item-price { color: #27ae60; font-weight: bold; }
+        
+        .toggle-btn {
+            margin-top: 15px; width: 100%; padding: 10px; background-color: #3498db;
+            color: white; border: none; border-radius: 6px; font-size: 0.95em;
+            cursor: pointer; transition: background 0.3s;
+        }
+        .toggle-btn:hover { background-color: #2980b9; }
+        
+        .no-items { color: #7f8c8d; font-style: italic; text-align: center; padding: 20px; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #7f8c8d; }
+        .empty-state h2 { color: #2c3e50; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="b2b-container">
+        <div class="header-section">
+            <h1>MossPay B2B Wholesale Market</h1>
+            <p>Source materials sustainably. Blockchain-verified logistics distance tracking active.</p>
+        </div>
+
+        {% if vendor_data %}
+        <div class="b2b-grid">
+            {% for vd in vendor_data %}
+            <div class="b2b-card" onclick="toggleItems('vendor-{{ vd.vendor.id }}')">
+                <div class="category-badge">
+                    {{ vd.vendor.shop_category or 'General' }}
+                </div>
+                <h3 class="vendor-name">{{ vd.vendor.business_name }}</h3>
+                
+                <div class="vendor-info">
+                    <strong>Contact:</strong> {{ vd.vendor.contact_name }}<br>
+                    <strong>Phone:</strong> {{ vd.vendor.mobile }}
+                </div>
+                
+                <div class="address-section">
+                    <strong>Address:</strong><br>
+                    {{ vd.vendor.address }}
+                </div>
+                
+                <div class="items-section" id="vendor-{{ vd.vendor.id }}" onclick="event.stopPropagation();">
+                    <h4 style="margin: 0 0 15px 0; color: #2c3e50;">Available Items ({{ vd['items']|length }})</h4>
+                    {% if vd['items'] and vd['items']|length > 0 %}
+                    <ul class="items-list">
+                        {% for item in vd['items'] %}
+                        <li>
+                            <div>
+                                <span class="item-name">{{ item.name }}</span>
+                                <div class="item-details">
+                                    Stock: {{ item.stock }} {{ item.unit }} | 
+                                    Carbon Saved: {{ item.carbon_saved_kg }} kg
+                                </div>
+                            </div>
+                            
+                            <div style="display:flex; gap: 10px; align-items:center;">
+                                <span class="item-price">₹{{ "%.2f"|format(item.price) }}</span>
+                                <input type="number" id="qty-{{ item.id }}" value="1" min="1" max="{{ item.stock }}" style="width: 50px; border-radius:4px; border:1px solid #ccc; padding:2px;">
+                                <button onclick="buyWholesale({{ item.id }})" style="background: #27ae60; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Buy</button>
+                            </div>
+
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="no-items">No items available yet.</p>
+                    {% endif %}
+                </div>
+                
+                <button class="toggle-btn" onclick="event.stopPropagation(); toggleItems('vendor-{{ vd.vendor.id }}')">
+                    View Items
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <h2>No Vendors Found</h2>
+            <p>There are no vendors registered yet. Please check back later.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function toggleItems(vendorId) {
+            const itemsSection = document.getElementById(vendorId);
+            const allSections = document.querySelectorAll('.items-section');
+            allSections.forEach(section => {
+                if (section.id !== vendorId) {
+                    section.classList.remove('show');
+                }
+            });
+            itemsSection.classList.toggle('show');
+        }
+
+        async function buyWholesale(itemId) {
+            const qty = document.getElementById('qty-' + itemId).value;
+            const response = await fetch('/api/b2b/buy', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item_id: itemId, quantity: qty })
+            });
+            const result = await response.json();
+            if (response.ok) {
+                alert(result.message);
+                location.reload();
+            } else {
+                alert('Error: ' + result.error);
+            }
+        }
+    </script>
+
+</body>
+</html>

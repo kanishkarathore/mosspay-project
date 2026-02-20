@@ -3,119 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generate Bill</title>
+    <title>Generate Bill - MossPay</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- NEW: QR Code Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</head>
-<body class="dashboard-body">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
 
-    <!-- Sidebar (unchanged) -->
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <img src="{{ url_for('static', filename='images/mosspay_logo.png') }}" alt="MossPay" class="sidebar-logo">
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="{{ url_for('vendor_dashboard') }}"><i class="fas fa-th-large"></i> Dashboard</a></li>
-            <li><a href="#"><i class="fas fa-user-circle"></i> Manage Profile</a></li>
-            <li><a href="{{ url_for('manage_items') }}"><i class="fas fa-box-open"></i> Manage Items</a></li>
-            <li><a href="{{ url_for('manage_offers') }}"><i class="fas fa-tags"></i> Manage Offers</a></li>
-            <li><a href="{{ url_for('customer_insights') }}"><i class="fas fa-chart-line"></i> Customer Insights</a></li>
-            <li><a href="{{ url_for('transaction_history') }}"><i class="fas fa-history"></i> Transaction History</a></li>
-            <li><a href="{{ url_for('my_subscription') }}"><i class="fas fa-gem"></i> My Subscription</a></li>
-        </ul>
-        <div class="sidebar-footer">
-           <a href="{{ url_for('vendor_settings') }}"><i class="fas fa-cog"></i> Settings</a>
-            <a href="{{ url_for('vendor_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-        </div>
-    </nav>
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
 
-    <div class="overlay" id="overlay"></div>
+        .header h1 { margin-bottom: 30px; font-weight: 500; font-size: 2em; text-align: center; }
 
-    <!-- Main content area -->
-    <main class="main-content">
-        <header class="topbar">
-            <div class="topbar-left">
-                <button class="icon-btn" id="hamburger-btn"><i class="fas fa-bars"></i></button>
-            </div>
-            <div class="topbar-right">
-                <a href="#" class="btn-topbar">View Insights</a>
-                <a href="#" class="btn-topbar btn-green-solid">Create New Offer</a>
-            </div>
-        </header>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+
+        /* Dark Green Cards */
+        .card {
+            background-color: #1b3b36;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        .card h3 { margin-top: 0; font-size: 1.3em; margin-bottom: 20px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; text-align: center; }
+
+        /* Left Side: Inventory */
+        .search-bar {
+            width: 100%; padding: 12px; border-radius: 8px; border: none;
+            background-color: #142c28; color: white; margin-bottom: 20px; box-sizing: border-box;
+        }
+        .search-bar::placeholder { color: #8fa39e; }
+
+        .item-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .item-info h4 { margin: 0 0 5px 0; font-size: 1.1em; }
+        .item-info p { margin: 0; color: #8fa39e; font-size: 0.9em; }
+
+        .qty-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn {
+            background: transparent; border: 1px solid #ffffff; color: white;
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 1.1em;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .qty-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* Right Side: Bill */
+        .bill-item { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 1.05em; }
+        .summary-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .total-amount { font-size: 1.8em; color: #4ade80; font-weight: bold; }
         
-        <div class="content-wrapper">
-            <h1 class="content-title">Generate Bill</h1>
-            
-            <div class="bill-generator-layout">
+        .phone-input {
+            width: 100%; padding: 15px; border-radius: 8px; border: none;
+            background-color: #142c28; color: white; margin-top: 25px; margin-bottom: 15px; box-sizing: border-box; font-size: 1em;
+        }
+        
+        .action-btn {
+            width: 100%; padding: 15px; border-radius: 8px; border: none;
+            font-size: 1.1em; font-weight: bold; cursor: pointer; margin-bottom: 10px; transition: 0.2s;
+        }
+        .btn-primary { background-color: #ffffff; color: #1b3b36; }
+        .btn-primary:hover { background-color: #e2e8f0; }
+        
+        #error-msg { color: #ff6b6b; text-align: center; margin-top: 10px; font-weight: bold; font-size: 0.95em; min-height: 20px; }
+        #success-msg { color: #4ade80; text-align: center; margin-top: 10px; font-weight: bold; font-size: 1em; min-height: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Generate Bill</h1>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <h3>Your Items (In Stock)</h3>
+                <input type="text" class="search-bar" placeholder="Search your items...">
                 
-                <!-- Left Side: Item List -->
-                <div class="card item-list-panel">
-                    <h3>Your Items (In Stock)</h3>
-                    <div class="search-bar">
-                        <input type="text" id="item-search-input" placeholder="Search your items...">
+                <div id="inventory-list">
+                    {% for item in items %}
+                    <div class="item-row">
+                        <div class="item-info">
+                            <h4>{{ item.name }}</h4>
+                            <p>₹{{ "%.2f"|format(item.price) }} | {{ item.stock }} in stock</p>
+                        </div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="updateCartRealTime({{ item.id }}, '{{ item.name }}', {{ item.price }}, {{ item.carbon_saved_kg }}, {{ item.stock }}, -1)">-</button>
+                            
+                            <input type="number" id="qty-input-{{ item.id }}" value="0" min="0" max="{{ item.stock }}" style="width: 40px; background: transparent; border: none; color: white; text-align: center; font-size: 1.2em; font-weight: bold;" readonly>
+                            
+                            <button class="qty-btn" onclick="updateCartRealTime({{ item.id }}, '{{ item.name }}', {{ item.price }}, {{ item.carbon_saved_kg }}, {{ item.stock }}, 1)">+</button>
+                        </div>
                     </div>
-                    <ul id="item-list">
-                        <!-- Items from database are loaded here -->
-                        {% for item in items %}
-                        <li class="item-list-entry" data-name="{{ item.name.lower() }}">
-                            <div class="item-info">
-                                <strong>{{ item.name }}</strong>
-                                <small>₹{{ "%.2f"|format(item.price) }} | {{ item.stock }} in stock</small>
-                            </div>
-                            <div class="item-controls">
-                                <button class="btn-quantity" data-action="decrease" data-id="{{ item.id }}">-</button>
-                                <span id="quantity-{{ item.id }}">0</span>
-                                <button class="btn-quantity" data-action="increase" 
-                                        data-id="{{ item.id }}" 
-                                        data-name="{{ item.name }}"
-                                        data-price="{{ item.price }}"
-                                        data-carbon="{{ item.carbon_saved_kg }}"
-                                        data-stock="{{ item.stock }}">+</button>
-                            </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Current Bill</h3>
+                
+                <div id="cart-container">
+                    <p style="color: #8fa39e; font-style: italic; text-align: center;">Cart is empty.</p>
                 </div>
                 
-                <!-- Right Side: The Bill -->
-                <div class="card bill-panel">
-                    <h3>Current Bill</h3>
-                    <div id="bill-items-list">
-                        <p class="empty-bill">No items added yet.</p>
-                    </div>
-                    <hr>
-                    <div class="bill-totals">
-                        <div class="total-row">
-                            <span>Total Carbon Saved:</span>
-                            <strong id="total-carbon">0.0 kg</strong>
-                        </div>
-                        <div class="total-row total-amount">
-                            <span>Total Amount:</span>
-                            <strong id="total-amount">₹0.00</strong>
-                        </div>
-                    </div>
-                    
-                    <div class="bill-actions">
-                        <div class="input-group">
-                            <label for="customer-phone">Customer Phone Number</label>
-                            <input type="tel" id="customer-phone" placeholder="10-digit mobile number">
-                        </div>
-                        <button id="btn-send-to-phone" class="btn-sign-in">Send to Phone</button>
-                        <button id="btn-generate-qr" class="btn-topbar">Generate QR</button>
-                    </div>
-                    <!-- This is where the QR code will appear -->
-                    <div id="qr-code-container"></div>
-                    <div id="bill-message-display"></div>
+                <div class="summary-row">
+                    <span>Total Carbon Saved:</span>
+                    <span id="total-carbon" style="font-weight: bold;">0.0 kg</span>
                 </div>
                 
+                <div class="summary-row" style="border: none; margin-top: 5px; padding-top: 5px;">
+                    <span style="font-size: 1.3em; font-weight: bold;">Total Amount:</span>
+                    <span class="total-amount" id="total-amount">₹0.00</span>
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <label style="color: #8fa39e; font-size: 0.9em;">Customer Phone Number</label>
+                    <input type="text" id="customer-phone" class="phone-input" placeholder="e.g. 9151062764">
+                </div>
+
+                <button class="action-btn btn-primary" onclick="sendBill()" id="send-btn">Send to Phone</button>
+                <button class="action-btn btn-primary">Generate QR</button>
+                
+                <div id="error-msg"></div>
+                <div id="success-msg"></div>
             </div>
         </div>
-    </main>
-    
-    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
-    <!-- NEW: JavaScript for this page -->
-    <script src="{{ url_for('static', filename='generate_bill.js') }}"></script>
+    </div>
+
+    <script>
+        // We use a dictionary/map now so it instantly updates exactly what the + and - buttons say
+        let cartMap = {};
+
+        function updateCartRealTime(id, name, price, carbonSaved, maxStock, change) {
+            let input = document.getElementById('qty-input-' + id);
+            let currentVal = parseInt(input.value) || 0;
+            let newVal = currentVal + change;
+
+            // Stop it from going below 0 or above max stock
+            if (newVal < 0) newVal = 0;
+            if (newVal > maxStock) newVal = maxStock;
+
+            // Update the text box
+            input.value = newVal;
+
+            // Update the logic engine
+            if (newVal === 0) {
+                delete cartMap[id]; // Remove from cart if it goes back to 0
+            } else {
+                cartMap[id] = { id, name, price, carbon_saved_kg: carbonSaved, quantity: newVal };
+            }
+
+            // Instantly visually refresh the bill panel
+            refreshBillUI();
+        }
+
+        function refreshBillUI() {
+            const container = document.getElementById('cart-container');
+            
+            // Clear any old success/error messages when they start clicking again
+            document.getElementById('error-msg').innerText = ""; 
+            document.getElementById('success-msg').innerText = ""; 
+
+            const cartArray = Object.values(cartMap);
+
+            if (cartArray.length === 0) {
+                container.innerHTML = '<p style="color: #8fa39e; font-style: italic; text-align: center;">Cart is empty.</p>';
+                document.getElementById('total-amount').innerText = '₹0.00';
+                document.getElementById('total-carbon').innerText = '0.0 kg';
+                return;
+            }
+
+            let html = '';
+            let totalAmount = 0;
+            let totalCarbon = 0;
+            
+            cartArray.forEach((item) => {
+                const itemTotal = item.price * item.quantity;
+                const carbonTotal = item.carbon_saved_kg * item.quantity;
+                
+                totalAmount += itemTotal;
+                totalCarbon += carbonTotal;
+                
+                html += `
+                    <div class="bill-item">
+                        <span>${item.name} <span style="color:#4ade80;">(x${item.quantity})</span></span>
+                        <span>₹${itemTotal.toFixed(2)}</span>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            document.getElementById('total-amount').innerText = '₹' + totalAmount.toFixed(2);
+            document.getElementById('total-carbon').innerText = totalCarbon.toFixed(1) + ' kg';
+        }
+
+        async function sendBill() {
+            const cartArray = Object.values(cartMap);
+            
+            if (cartArray.length === 0) {
+                document.getElementById('error-msg').innerText = "Please add items using the + button first.";
+                setTimeout(() => { document.getElementById('error-msg').innerText = ''; }, 3000);
+                return;
+            }
+            
+            const phone = document.getElementById('customer-phone').value.trim();
+            if (!phone) {
+                document.getElementById('error-msg').innerText = "Please enter a phone number.";
+                setTimeout(() => { document.getElementById('error-msg').innerText = ''; }, 3000);
+                return;
+            }
+
+            try {
+                const btn = document.getElementById('send-btn');
+                let originalText = btn.innerText;
+                btn.innerText = "Processing Transaction...";
+                btn.disabled = true;
+
+                const response = await fetch('/api/vendor/send-bill-to-phone', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phone, cart: cartArray })
+                });
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Show success message dynamically below the buttons!
+                    document.getElementById('success-msg').innerText = result.message;
+                    
+                    // Reset the cart and all the 0 counters automatically
+                    cartMap = {};
+                    refreshBillUI();
+                    document.querySelectorAll('input[id^="qty-input-"]').forEach(inp => inp.value = 0);
+                    document.getElementById('customer-phone').value = '';
+                    
+                    // Put the success message back since refreshBillUI clears it
+                    document.getElementById('success-msg').innerText = result.message;
+
+                    // Button back to normal
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                } else {
+                    document.getElementById('error-msg').innerText = "Error: " + result.error;
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                document.getElementById('error-msg').innerText = "A network error occurred. Check your connection.";
+                const btn = document.getElementById('send-btn');
+                btn.innerText = "Send to Phone";
+                btn.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
